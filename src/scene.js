@@ -1,6 +1,6 @@
-﻿/** Local, asset-free architectural model. All coordinates are metres. */
+/** Local, asset-free architectural model. All coordinates are metres. */
 export function buildHouse(THREE, scene) {
-  const building = new THREE.Group(); building.name = 'AZE / Gaming House'; scene.add(building);
+  const building = new THREE.Group(); building.name = 'AZES / Gaming House'; scene.add(building);
   const exterior = new THREE.Group(); exterior.name = 'Landscape & arrival'; scene.add(exterior);
   const floors = [new THREE.Group(), new THREE.Group()];
   floors.forEach((g, i) => { g.name = i ? '01 / Living & recovery' : '00 / Performance'; g.position.y = i * 4.2; building.add(g); });
@@ -86,7 +86,7 @@ export function buildHouse(THREE, scene) {
     }
     return mesh(p, geometry.plane, signCache.get(key), x, y, z, w, h, 1, ry);
   }
-  const screenTextures = ['PLAYER 01','TEAM / LIVE','AZE / ANALYTICS','BROADCAST / ON AIR'].map((title, idx) => canvasTexture((c, w, h) => {
+  const screenTextures = ['PLAYER 01','TEAM / LIVE','AZES / ANALYTICS','BROADCAST / ON AIR'].map((title, idx) => canvasTexture((c, w, h) => {
     const grad = c.createLinearGradient(0, 0, w, h); grad.addColorStop(0, '#102b32'); grad.addColorStop(1, '#050f16'); c.fillStyle = grad; c.fillRect(0, 0, w, h);
     c.strokeStyle = '#1f4147'; c.lineWidth = 1; for (let i = 0; i < 20; i++) { c.beginPath(); c.moveTo(i * 50, 40); c.lineTo(i * 50, h); c.stroke(); }
     for (let i = 0; i < 10; i++) { c.beginPath(); c.moveTo(0, 65 + i * 50); c.lineTo(w, 65 + i * 50); c.stroke(); }
@@ -211,7 +211,7 @@ export function buildHouse(THREE, scene) {
       colliders.push({minX:-2,maxX:2,minZ:10.88,maxZ:11.12,floor});
     } else {
       for (const side of [-1,1]) { box(p, materials.graphite, side * 1.75, 1.6, 11, .1, 3.2, .16); box(p, materials.glass, side * 1.35, 1.55, 11, .7, 3.0, .055); }
-      box(p, materials.graphite, 0, 3.2, 11, 3.6, .18, .2); sign(p, 'AZE  /  WELCOME', 0, 2.88, 10.85, 2.1, .34, Math.PI);
+      box(p, materials.graphite, 0, 3.2, 11, 3.6, .18, .2); sign(p, 'AZES  /  WELCOME', 0, 2.88, 10.85, 2.1, .34, Math.PI);
     }
     solid(p, materials.wall, 0, 1.8, -11, 4, 3.6, .2, floor);
     sign(p, floor ? '01  /  LIVE WELL. PLAY BETTER.' : '00  /  BUILT FOR THE NEXT LEVEL.', 0, 2.7, -10.87, 3.2, .55);
@@ -264,7 +264,7 @@ export function buildHouse(THREE, scene) {
   const st = desk(g,-11.0,-9.55,4.0,.96,0); screen(st,-.75,1.4,-.18,1.28,.72,0,3); screen(st,.65,1.4,-.18,1.28,.72,0,1); keyboard(st,0,.83,.16); pc(st,1.6,0,.82); chair(g,-11,-8.25,Math.PI,true);
   box(g,materials.graphite,-11,1.53,-9.57,.05,.03,.8); cyl(g,materials.metal,-11,1.7,-9.17,.035,.34); sphere(g,materials.black,-11,1.91,-9.17,.06,.12,.06);
   sofa(g,-4.4,-9.65,2.65,0,0); cyl(g,materials.oak,-4.4,.4,-7.8,.66,.09); cyl(g,materials.graphite,-4.4,.21,-7.8,.08,.4);
-  sign(g,'AZE\nCONTENT STUDIO',-4.6,2.3,-10.84,3.8,.95,0); box(g,materials.cyan,-4.6,3.15,-10.8,4.5,.04,.04);
+  sign(g,'AZES\nCONTENT STUDIO',-4.6,2.3,-10.84,3.8,.95,0); box(g,materials.cyan,-4.6,3.15,-10.8,4.5,.04,.04);
   const camera = new THREE.Group(); camera.position.set(-5.3,0,-5.5); camera.rotation.y=Math.PI; g.add(camera);
   for(const a of [0,2.1,4.2]) { const leg=box(camera,materials.metal,Math.sin(a)*.25,.65,Math.cos(a)*.25,.04,1.35,.04); leg.rotation.z=Math.cos(a)*.34; leg.rotation.x=Math.sin(a)*.34; }
   box(camera,materials.black,0,1.45,0,.42,.32,.32); cyl(camera,materials.black,0,1.45,.29,.15,.34).rotation.x=Math.PI/2; box(camera,materials.led,.25,1.57,0,.04,.04,.04);
@@ -372,7 +372,7 @@ export function buildHouse(THREE, scene) {
   for(const side of [-1,1]) {box(building,materials.graphite,side*8,4,11.15,12.3,.43,.45);box(building,materials.graphite,side*8,4,-11.15,12.3,.43,.45);}
   for(const x of [-13.1,-12.8,-12.5,-12.2,12.2,12.5,12.8,13.1]) box(building,materials.oak,x,4.05,11.28,.12,7.5,.24);
   box(building,materials.graphite,0,3.7,11.65,5.4,.27,2.2); box(building,materials.led,0,3.54,12.71,4.8,.035,.025);
-  sign(building,'AZE',0,4.18,12.78,3.45,.65); sign(building,'E S P O R T S   /   G A M I N G   H O U S E',0,3.86,12.79,3.45,.19,0,'#eeeee8');
+  sign(building,'AZES',0,4.18,12.78,3.45,.65); sign(building,'E S P O R T S   /   G A M I N G   H O U S E',0,3.86,12.79,3.45,.19,0,'#eeeee8');
   // Landscape: native planting, accessible entry, visitor parking and garden loop.
   box(exterior,materials.grass,0,-.42,0,86,.3,75); box(exterior,materials.gravel,0,-.23,0,39,.09,29);
   box(exterior,materials.concrete,0,-.07,15.8,5.7,.12,10);box(exterior,materials.concrete,0,-.085,21,47,.1,3.4);
@@ -393,7 +393,7 @@ export function buildHouse(THREE, scene) {
     for(const z of [14,18.5,22]) {box(exterior,materials.graphite,side*3.5,.42,z,.12,.9,.12);box(exterior,materials.warmLight,side*3.5,.82,z,.16,.12,.16);}
   }
   for(const x of [-9,9]) {box(exterior,materials.oak,x,.47,16.4,4,.13,.65);for(const xx of [x-1.6,x+1.6])box(exterior,materials.graphite,xx,.22,16.4,.16,.45,.65);}
-  box(exterior,materials.graphite,-8,.62,21,4.8,1.4,.36);sign(exterior,'AZE\nPERFORMANCE. TOGETHER.',-8,.78,21.2,4.3,1.05);
+  box(exterior,materials.graphite,-8,.62,21,4.8,1.4,.36);sign(exterior,'AZES\nPERFORMANCE. TOGETHER.',-8,.78,21.2,4.3,1.05);
   // Interior illumination: emissive strips plus six inexpensive area stand-ins.
   [[-8,7],[-8,-.5],[-8,-7.5],[8,7],[8,-.5],[8,-7.5]].forEach(([x,z])=> {const l=new THREE.PointLight('#fff1d5',8,15,1.5);l.position.set(x,3.1,z);l.castShadow=false;g.add(l);interiorLights.push(l);});
   const points=[['scrim',-7,1.7,7],['analysis',-6.5,1.7,0],['studio',-7,1.7,-7],['lounge',7,1.7,7],['nutrition',7,1.7,0],['gym',7,1.7,-7],['sleep-a',-7,5.9,7],['sleep-b',-7,5.9,-1.2],['bath',-7.5,5.9,-6.7],['coach',7,5.9,7],['quiet',8,5.9,0],['terrace',7,5.9,-7]];

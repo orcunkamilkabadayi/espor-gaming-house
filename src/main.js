@@ -40,7 +40,7 @@ function setVisibility(){
 }
 function syncLocation(){
   const room=roomById(state.room);
-  $('#location-name').textContent=state.view==='outside'?'AZE Gaming House':room?.name||(state.floor===0?'Performans katı':'Yaşam katı');
+  $('#location-name').textContent=state.view==='outside'?'AZES Gaming House':room?.name||(state.floor===0?'Performans katı':'Yaşam katı');
   $('#location-meta').textContent=state.view==='outside'?'İKİ KATLI TAKIM EVİ · DIŞ MEKÂN':`${state.floor===0?'01 / PERFORMANS':'02 / YAŞAM'}${room?' · '+room.area+' m² KONSEPT ALAN':''}`;
   $('#info-btn').hidden=!room;
   $$('#room-list button').forEach(el=>{const a=el.dataset.room===state.room;el.classList.toggle('active',a);el.setAttribute('aria-pressed',String(a));});
@@ -162,7 +162,7 @@ function photograph(){
   renderer.render(scene,camera);
   const data=renderer.domElement.toDataURL('image/png');
   $('#gallery-image').src=data;
-  $('#gallery-download').href=data;$('#gallery-download').download=`AZE-gaming-house-${state.room||state.view}-${state.night?'gece':'gunduz'}.png`;
+  $('#gallery-download').href=data;$('#gallery-download').download=`AZES-gaming-house-${state.room||state.view}-${state.night?'gece':'gunduz'}.png`;
   $('#gallery-dialog').showModal();
 }
 function startTour(){

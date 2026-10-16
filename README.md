@@ -1,4 +1,4 @@
-# AZE / Espor Gaming House
+# AZES / Espor Gaming House
 
 Orçun Kamil Kabadayı tarafından tasarlanan iki katlı, gezilebilir 3D espor takım evi konsepti. Three.js ile gerçek hacim içinde dolaşma ve mimari sunum deneyimi.
 
@@ -8,7 +8,7 @@ Orçun Kamil Kabadayı tarafından tasarlanan iki katlı, gezilebilir 3D espor t
 
 [Canlı 3D turu açın](https://www.orcunkamilkabadayi.com/gaming-house/).
 
-Çevrimdışı kullanım için depoyu ZIP olarak indirin ve **AZE-Gaming-House.html** dosyasına çift tıklayın. Motor, model, dokular, arayüz ve araştırma tek dosyaya gömülüdür; kurulum ve internet gerekmez.
+Çevrimdışı kullanım için depoyu ZIP olarak indirin ve **AZES-Gaming-House.html** dosyasına çift tıklayın. Motor, model, dokular, arayüz ve araştırma tek dosyaya gömülüdür; kurulum ve internet gerekmez.
 
 ## İçerik
 

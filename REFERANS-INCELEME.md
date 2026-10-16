@@ -1,6 +1,6 @@
 # Referans incelemesi ve mimari tasarım kararları
 
-İnceleme tarihi: 16 Ekim 2026. Çıktı: yerel, iki katlı AZE Gaming House konsepti.
+İnceleme tarihi: 16 Ekim 2026. Çıktı: yerel, iki katlı AZES Gaming House konsepti.
 
 ## 1. Mimari3D videosu ve canlı deneyim
 
@@ -12,10 +12,10 @@ Canlı örnekte beş kayıtlı bölüm bulunuyor: mutfak, salon, hol ve iki yata
 
 Bu gözlemlerden referansın iç dosya formatı, lisans yapısı, render pipeline’ı veya ticari arka ucu kesin olarak çıkarılmadı. Görsel görünüşünden hareketle bir panorama, Gaussian Splat veya mesh teknolojisi kullandığı iddia edilmiyor. Bu teslimin yöntemi ise açık: Three.js ile oluşturulmuş gerçek geometrik bir model.
 
-| Referansta görülen davranış | AZE yerel karşılığı |
+| Referansta görülen davranış | AZES yerel karşılığı |
 | --- | --- |
 | Yükleme ve hazır durumu | Başlangıç yükleme katmanı; kod ve sahne hazır olunca kapanır |
-| Bölüm küçük resimleri | Doğrudan AZE 3D modelinden oluşturulan 12 oda önizlemesi |
+| Bölüm küçük resimleri | Doğrudan AZES 3D modelinden oluşturulan 12 oda önizlemesi |
 | Bölüm seçimi ve kayıtlı görüş | Her oda için engelsiz göz seviyesi konumu ve bakış hedefi |
 | Sahne üzeri konum işaretleri | Kat kesitinde tıklanabilen oda noktaları ve dışarıda giriş noktası |
 | Fareyle bakış / yakınlaşma | Sürüklemeyle bakış veya orbit; tekerlekle yakınlaşma |
@@ -39,7 +39,7 @@ Bu tarihli yazılar güncel sektör istatistiği olarak kullanılmadı. Tasarım
 
 ## 3. Yurt dışı örnekleri — dış ve iç mekân
 
-Bu bölüm kaynaklarda açıklanan gerçek tesisleri özetler. AZE’ye aktarım sütunu ise bizim özgün tasarım yorumumuzdur. Her tesis konut değildir; kurumsal merkez, antrenman tesisi ve konaklama programı ayrı tutulmuştur. Açılış tarihli duyurular, tesislerin bugünkü işletme durumunu garanti eden kayıtlar olarak kullanılmadı.
+Bu bölüm kaynaklarda açıklanan gerçek tesisleri özetler. AZES’ye aktarım sütunu ise bizim özgün tasarım yorumumuzdur. Her tesis konut değildir; kurumsal merkez, antrenman tesisi ve konaklama programı ayrı tutulmuştur. Açılış tarihli duyurular, tesislerin bugünkü işletme durumunu garanti eden kayıtlar olarak kullanılmadı.
 
 ### Team Liquid / Alienware Training Facility EU — Utrecht
 
@@ -47,27 +47,27 @@ Bu bölüm kaynaklarda açıklanan gerçek tesisleri özetler. AZE’ye aktarım
 
 [VenhoevenCS’nin mimari proje açıklaması](https://venhoevencs.nl/projects/alienware-training-facility-eu-for-team-liquid/) tesisin Het Platform içinde, istasyon meydanına bakan bir konumda bulunduğunu ve kamusal geçitle şehirle ilişki kurduğunu belirtiyor. İçeride ziyaretçi ve oyuncu/ofis bölgelerini ayıran şeffaf kupa vitrini, aydınlık çalışma alanı, restoran ve değişken kullanımlı plan öne çıkıyor. Sıcak doğal malzemelerle teknolojik kimlik birlikte kullanılıyor.
 
-**AZE’ye aktarımımız:** açıkça okunabilen giriş, cephede cam ve ahşap birlikteliği, karşılama/kupa köşesi, bağımsız analiz odası ve ortak sofra. Modeldeki bahçe, güneş panelleri, iki katlı bağımsız kütle ve teras bize ait önerilerdir; bu gerçek tesisin kopyası olarak sunulmaz.
+**AZES’ye aktarımımız:** açıkça okunabilen giriş, cephede cam ve ahşap birlikteliği, karşılama/kupa köşesi, bağımsız analiz odası ve ortak sofra. Modeldeki bahçe, güneş panelleri, iki katlı bağımsız kütle ve teras bize ait önerilerdir; bu gerçek tesisin kopyası olarak sunulmaz.
 
 ### 100 Thieves / Cash App Compound — Los Angeles
 
 [100 Thieves’in 2020 açılış duyurusu](https://100thieves.com/blogs/all/100-thieves-compound) antrenman, canlı yayın, içerik üretimi, giyim ve iş yönetimi işlevlerini aynı merkezde topluyor. [Teknik tedarikçi OpenDrives’ın vaka çalışması](https://opendrives.com/wp-content/uploads/2021/05/100-Thieves.pdf), özellikle ikinci PDF sayfası, dış cephede belirgin marka yazısı ve içeride prodüksiyon ortamını belgeliyor; stüdyo ile kurgu alanları arasındaki iş akışını açıklıyor.
 
-**AZE’ye aktarımımız:** giriş saçak ve tabelası, kolay seçilen kurumsal kimlik, oyuncu antrenmanından ayrılan kamera/ışık/mikrofonlu içerik stüdyosu. Mağaza veya ticari etkinlik alanı bu daha küçük takım evi programına eklenmedi. Kaynak, yataklı gaming house olarak tanımlanmadı.
+**AZES’ye aktarımımız:** giriş saçak ve tabelası, kolay seçilen kurumsal kimlik, oyuncu antrenmanından ayrılan kamera/ışık/mikrofonlu içerik stüdyosu. Mağaza veya ticari etkinlik alanı bu daha küçük takım evi programına eklenmedi. Kaynak, yataklı gaming house olarak tanımlanmadı.
 
 ### MOUZ HQ — Hamburg
 
 [AHH mimari proje sayfası](https://www.ahh.nl/en/projects/mouz) tarihî yapıdaki büyük cephe açıklıklarını, dışarıdan görülen kırmızı arenayı, sokak seviyesinin altındaki antrenman odalarını ve arenaya bakan üst kat ofislerini açıklıyor. Akustik cam ve sıcak ahşap, görsel bağlantıyı korurken odaklı çalışma sağlıyor. [MOUZ’un kendi mekân yazısı](https://mousesports.com/news/mouz-hq-creates-a-unique-connection/) takım çalışma düzenine ilişkin ek birincil kaynaktır.
 
-**AZE’ye aktarımımız:** dışarıdan anlaşılan takım kimliği, iç dolaşımın okunabilirliği, cam bölmelerle görsel bağlantı ve çalışma/ortak yaşam ayrımı. Konut ölçeğini korumak için halka açık büyük arena tasarlamadık; Hamburg’daki tarihî cephe veya kırmızı salon taklit edilmedi.
+**AZES’ye aktarımımız:** dışarıdan anlaşılan takım kimliği, iç dolaşımın okunabilirliği, cam bölmelerle görsel bağlantı ve çalışma/ortak yaşam ayrımı. Konut ölçeğini korumak için halka açık büyük arena tasarlamadık; Hamburg’daki tarihî cephe veya kırmızı salon taklit edilmedi.
 
 ### Fnatic × BMW — Berlin performans tesisi
 
 [8 Haziran 2022 tarihli resmî duyuru](https://fnatic.com/news/fnatic-partners-with-bmw-to-open-brand-new-esports-performance-facility-in-berlin) spor salonu, mutfak, dinlenme, iki performans odası, içerik stüdyosu, maç inceleme alanı ve ofis tanımlıyor. Bu kaynak iç mekân programı açısından kullanıldı; dış cephe niteliği veya konaklama kapasitesi hakkında bu metinden sonuç çıkarılmadı.
 
-**AZE’ye aktarımımız:** VOD odası, fiziksel hareket, ekransız mola ve içerik üretimini oyuncu sağlığı/performans döngüsünün parçası saymak. Kaynakta adı geçen yarış simülatörü bu sürümün programına alınmadı.
+**AZES’ye aktarımımız:** VOD odası, fiziksel hareket, ekransız mola ve içerik üretimini oyuncu sağlığı/performans döngüsünün parçası saymak. Kaynakta adı geçen yarış simülatörü bu sürümün programına alınmadı.
 
-## 4. İki katlı özgün AZE programı
+## 4. İki katlı özgün AZES programı
 
 Kütle şeması 28 × 22 metredir. Kat yüksekliği 4,2 metre; göz seviyesi yaklaşık 1,7 metredir. Ana dolaşım iki yandaki bölümlere açılan merkezi bir omurgadır. Oda alanları bölge genişliği × derinliğinden türetilmiş şematik değerlerdir; duvarlar ve donatı düşülmüş net alan hesabı değildir.
 

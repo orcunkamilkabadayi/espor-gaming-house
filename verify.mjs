@@ -37,7 +37,7 @@ for(const floor of [0,1]){
     assert.ok(reachable,`Unreachable room: ${h.id}`);paths.push(h.id);
   }
 }
-const html=await readFile(path.join(root,'AZE-Gaming-House.html'),'utf8');
+const html=await readFile(path.join(root,'AZES-Gaming-House.html'),'utf8');
 assert.ok(!/<script[^>]+src\s*=|<link[^>]+rel=["']stylesheet["']|<img[^>]+src=["']https?:/i.test(html),'External resource found in portable HTML');
 const scripts=[...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)];assert.equal(scripts.length,1);
 new vm.Script(scripts[0][1]);assert.ok(html.indexOf('<script>')>html.indexOf('id="viewport"'),'Inline code executes before DOM');
