@@ -6,7 +6,9 @@ Orçun Kamil Kabadayı tarafından tasarlanan iki katlı, gezilebilir 3D espor t
 
 ## Deneyimi açma
 
-Depoyu ZIP olarak indirin ve **AZE-Gaming-House.html** dosyasına çift tıklayın. Motor, model, dokular, arayüz ve araştırma tek dosyaya gömülüdür; kurulum ve internet gerekmez. Bu depo kaynak/yerel demo sunar; henüz ayrı bir canlı 3D tur adresi yoktur.
+[Canlı 3D turu açın](https://www.orcunkamilkabadayi.com/gaming-house/).
+
+Çevrimdışı kullanım için depoyu ZIP olarak indirin ve **AZE-Gaming-House.html** dosyasına çift tıklayın. Motor, model, dokular, arayüz ve araştırma tek dosyaya gömülüdür; kurulum ve internet gerekmez.
 
 ## İçerik
 
