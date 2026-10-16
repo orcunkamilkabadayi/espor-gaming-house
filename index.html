@@ -1,0 +1,105 @@
+﻿<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ecece4">
+  <meta name="description" content="AZE Gaming House — iki katlı espor yaşam ve performans merkezi. Yerel, etkileşimli 3D mimari konsept.">
+  <title>AZE — Gaming House / Mekânsal Deneyim</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="gaming-house.js" defer></script>
+</head>
+<body>
+  <!-- DOM contract: viewport owns the renderer; all controls are wired in src/main.js. -->
+  <main id="viewport" aria-label="İki katlı espor gaming house, etkileşimli 3 boyutlu mekân" aria-describedby="scene-keyboard-help"></main>
+  <p id="scene-keyboard-help" class="sr-only">İçeride gez düğmesiyle mekâna girin. WASD veya yön tuşlarıyla yürüyün. E ile yakındaki kapıyı, M ile kat planını, F ile tam ekranı ve H ile arayüzü kontrol edin. Escape tuşuyla gezinti modundan çıkın.</p>
+  <div id="scene-curtain" aria-hidden="true"></div>
+  <div class="viewport-vignette" aria-hidden="true"></div>
+
+  <header class="app-header chrome">
+    <a class="brand" href="#" aria-label="AZE Gaming House ana görünümü">
+      <span class="brand-symbol">A<span>Z</span>E<span class="brand-slash">/</span></span>
+      <span class="brand-copy"><strong>GAMING HOUSE</strong><small>MEKÂNSAL DENEYİM · 01</small></span>
+    </a>
+    <div class="header-actions">
+      <span class="local-badge"><span></span>YEREL KONSEPT</span>
+      <button id="help-btn" aria-label="Nasıl gezilir?" class="text-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.7 8.6a2.4 2.4 0 0 1 4.7.6c0 1.8-2.4 1.9-2.4 3.8M12 16.3v.2"/></svg><span>Nasıl gezilir?</span></button>
+      <button id="fullscreen-btn" class="icon-button" type="button" aria-label="Tam ekran" title="Tam ekran · F"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/></svg></button>
+    </div>
+  </header>
+
+  <aside id="sections" class="explore-panel chrome" aria-label="Mekân navigasyonu">
+    <div class="panel-topline"><span class="eyebrow">MEKÂNI KEŞFET</span><button id="sections-toggle" type="button" class="small-icon-button" aria-label="Mekân menüsünü aç veya kapat" title="Menüyü aç / kapat" aria-expanded="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></button></div>
+    <div class="section-body">
+      <h1>Oyunun<br>ötesinde<span>.</span></h1>
+      <p class="intro-copy">İki kat. Tek takım.<br>Ortak bir yaşam.</p>
+      <div class="floor-tabs" role="group" aria-label="Kat seçimi">
+        <button type="button" data-floor="0" class="active" aria-pressed="true"><span>01</span>Performans</button>
+        <button type="button" data-floor="1" aria-pressed="false"><span>02</span>Yaşam</button>
+      </div>
+      <div class="room-list-heading"><span>MEKÂNLAR</span><span class="room-list-marker" aria-hidden="true">↗</span></div>
+      <nav id="room-list" aria-label="Odalara hızlı geçiş"></nav>
+      <button id="outside-btn" type="button" class="outside-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg><span>Bina dışını keşfet</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
+      <div class="panel-footnote"><span class="status-dot"></span><span>Yürünebilir 3D konsept</span></div>
+    </div>
+  </aside>
+
+  <button id="info-btn" type="button" class="scene-info-button chrome"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.2v.2"/></svg>Mekân bilgisi</button>
+
+  <aside id="info-card" class="floating-card chrome" hidden aria-labelledby="info-title">
+    <div class="card-topline"><span class="eyebrow">MEKÂN NOTU</span><button id="info-close" class="small-icon-button" type="button" aria-label="Mekân bilgisini kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+    <h2 id="info-title">Takım için tasarlandı.</h2>
+    <p id="info-description">Performans, üretim ve birlikte yaşam, tek bir mekânda buluşuyor.</p>
+    <ul id="info-features" class="feature-list"></ul>
+    <a id="info-source" class="source-link" href="REFERANS-INCELEME.html" target="_blank" rel="noopener">Tasarımın dayanaklarını incele <span aria-hidden="true">↗</span></a>
+  </aside>
+
+  <aside id="plan-panel" class="floating-card plan-card chrome" hidden aria-labelledby="plan-title">
+    <div class="card-topline"><span class="eyebrow">YÖNÜNÜ BUL</span><button id="plan-close" class="small-icon-button" type="button" aria-label="Kat planını kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+    <h2 id="plan-title">01 / Performans katı</h2>
+    <svg id="plan-svg" viewBox="0 0 280 220" role="group" aria-label="Geçerli katın etkileşimli planı"></svg>
+    <div class="plan-legend"><span><i class="legend-player"></i>Konumunuz</span><span><i class="legend-room"></i>Geçiş noktası</span></div>
+    <p class="plan-note">Bir mekâna dokunarak oraya geçebilirsiniz.</p>
+  </aside>
+
+  <div class="location-label chrome"><span class="location-kicker">ŞU ANDA</span><h2 id="location-name">Gaming House</h2><p id="location-meta">Dış mekân · Genel görünüm</p></div>
+  <div id="look-hint" class="look-hint chrome"><span class="hint-mouse" aria-hidden="true"></span><span>Sürükle ve keşfet <i></i> Tekerlek ile yaklaş</span></div>
+  <div id="crosshair" aria-hidden="true"><span></span><span></span></div>
+
+  <div id="tour-status" class="tour-status chrome" hidden><span class="tour-indicator"></span><span id="tour-step">Mekân sunumu</span><button id="tour-stop" type="button" aria-label="Sunumu durdur">Durdur <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg></button></div>
+
+  <nav class="experience-toolbar chrome" aria-label="3D deneyim kontrolleri">
+    <div class="primary-controls">
+      <button id="walk-btn" type="button" class="tool-button" aria-pressed="false" title="Birinci kişi olarak içeride gez"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="m7 11 4-4 4 3 4 1M11 8l-1 7-4 6m4-6 5 1 2 5"/></svg><span>İçeride gez</span></button>
+      <button id="orbit-btn" type="button" class="tool-button active" aria-pressed="true" title="Binayı üç boyutlu incele"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5v10l-9 5-9-5V7l9-5Zm0 10 9-5M12 12v10M12 12 3 7M7.5 4.5l9 5"/></svg><span>Bina / 3D</span></button>
+      <button id="plan-btn" type="button" class="tool-button" aria-pressed="false" title="Kat planını aç · M"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v18H3V3Zm0 8h8V3m0 8v10m0-7h10M7 11v4m8-1v-4"/></svg><span>Kat planı</span></button>
+    </div>
+    <span class="toolbar-divider" aria-hidden="true"></span>
+    <div class="secondary-controls">
+      <button id="tour-btn" type="button" class="tool-button" aria-pressed="false" title="Rehberli mekân sunumu"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="m10 8 5 3-5 3V8ZM9 22l3-4 3 4"/></svg><span>Sunum</span></button>
+      <button id="shot-btn" type="button" class="tool-button" title="Görünümün fotoğrafını çek"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5 6 8H3v12h18V8h-3l-2-3H8Z"/><circle cx="12" cy="13.5" r="3.5"/></svg><span>Fotoğraf</span></button>
+      <button id="night-btn" type="button" class="tool-button" aria-pressed="false" title="Gündüz / gece"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 14.5A9 9 0 0 1 9.5 3.3a9 9 0 1 0 11.2 11.2Z"/></svg><span>Gece</span></button>
+      <button id="sound-btn" type="button" class="tool-button" aria-pressed="false" title="Ortam sesini aç / kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m11 4-6 5H2v6h3l6 5V4Zm4 4a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg><span>Ses</span></button>
+      <button id="ui-btn" type="button" class="tool-button" aria-pressed="false" title="Arayüzü gizle · H"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span>Arayüz</span></button>
+    </div>
+  </nav>
+
+  <footer class="app-footer chrome"><span>AZE<span class="footer-separator">/</span>ESPORTS & LIVING</span><button id="about-btn" type="button">Konsept hakkında <span aria-hidden="true">↗</span></button></footer>
+  <button id="restore-ui" class="restore-ui" type="button" aria-label="Arayüzü göster" title="Arayüzü göster · H"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 3v18M8 15h13"/></svg><span>Arayüzü göster</span></button>
+
+  <div id="touch-controls" aria-label="Dokunmatik yürüme kontrolleri"><button type="button" data-move="forward" aria-label="İleri yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg></button><button type="button" data-move="left" aria-label="Sola yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button type="button" data-move="back" aria-label="Geri yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6"/></svg></button><button type="button" data-move="right" aria-label="Sağa yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div>
+
+  <div id="loading" class="loading-screen" role="status"><div class="loading-brand">AZE<span>/</span></div><div class="loading-line"><span></span></div><p>Mekân hazırlanıyor<span class="loading-dots">…</span></p><small>PERFORMANS · ÜRETİM · YAŞAM</small></div>
+  <div id="error-panel" class="error-panel" hidden role="alert"><strong>3D görünüm başlatılamadı.</strong><p>Tarayıcınızda donanım hızlandırmanın açık olduğundan emin olun ve sayfayı yeniden açın.</p></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="help-dialog" class="modal help-modal" aria-labelledby="help-title"><div class="modal-heading"><span class="eyebrow">KONTROL SİZDE</span><button id="help-close" type="button" class="small-icon-button" aria-label="Yardımı kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><h2 id="help-title">Mekânın içine girin<span>.</span></h2><p class="modal-intro">İster binanın çevresinde dolaşın, ister kapıdan girip her odayı kendi hızınızda keşfedin.</p><div class="help-controls"><div><span class="keyboard-keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><strong>Hareket</strong><p>İçeride gez modunda WASD veya yön tuşlarıyla yürüyün.</p></div><div><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 2v7m-7 0h14"/></svg><strong>Bakış ve yaklaşma</strong><p>Fareyi basılı tutup sürükleyin. Dış görünümde tekerlek ile yaklaşın.</p></div><div><span class="keyboard-keys"><kbd>E</kbd><kbd>M</kbd></span><strong>Kapılar ve kat planı</strong><p>Yakındaki kapıyı E ile açın. M ile kat planını görün.</p></div><div><span class="keyboard-keys"><kbd>F</kbd><kbd>H</kbd><kbd>Esc</kbd></span><strong>Görünüm</strong><p>F tam ekran, H arayüz. Esc ile sunumdan veya gezinti görünümünden çıkın.</p></div></div><div class="touch-help"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a2 2 0 0 1 4 0v6l2-1 5 3v6l-3 3h-5l-6-8a2 2 0 0 1 3-2Z"/></svg><p><strong>Dokunmatik ekran</strong>Bakmak için sürükleyin, yürümek için yön kontrolünü kullanın. Kat planından odalara doğrudan geçebilirsiniz.</p></div></dialog>
+
+  <dialog id="about-dialog" class="modal about-modal" aria-labelledby="about-title"><div class="modal-heading"><span class="eyebrow">MİMARİ KONSEPT / 01</span><button id="about-close" type="button" class="small-icon-button" aria-label="Konsept bilgisini kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><h2 id="about-title">Bir takımın<br>bütün dünyası<span>.</span></h2><p>AZE Gaming House, espor takımının antrenmanını, içerik üretimini, fiziksel iyilik hâlini ve ortak yaşamını iki katta birleştiren özgün bir 3D tasarım çalışmasıdır.</p><p>Alt kat performans ve üretime; üst kat dinlenme, yaşam ve toparlanmaya ayrılır. Bahçe ve teras, ekran dışında birlikte geçirilen zaman için tasarlanır.</p><div class="about-specs"><div><strong>02</strong><span>KAT</span></div><div><strong>3D</strong><span>SERBEST GEZİNTİ</span></div><div><strong>AZE</strong><span>TAKIM ODAĞI</span></div></div><h3>Araştırma ve referanslar</h3><div id="research-links" class="research-links"><a href="https://www.mimari3d.com/tanitim/" target="_blank" rel="noopener">Mimari3D · İnteraktif mimari deneyim <span>↗</span></a><a href="https://www.adanzyeespor.com/" target="_blank" rel="noopener">A'dan Z'ye Espor · Gaming house yazıları <span>↗</span></a></div><a class="source-link" href="REFERANS-INCELEME.html" target="_blank" rel="noopener">Ayrıntılı araştırma ve özellik karşılaştırması <span>↗</span></a><p class="concept-note">Yerel inceleme sürümü · Özgün konsept tasarım<br>Gerçek bir binaya ait uygulama veya ruhsat projesi değildir.</p></dialog>
+
+  <dialog id="gallery-dialog" class="modal gallery-modal" aria-labelledby="gallery-title"><div class="modal-heading"><span id="gallery-title" class="eyebrow">MEKÂNDAN BİR KARE</span><button id="gallery-close" type="button" class="small-icon-button" aria-label="Fotoğrafı kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><img id="gallery-image" alt="Gaming House 3D görünümünden çekilen fotoğraf"><div class="gallery-footer"><p>Bakış açınız, sizin kareniz.</p><a id="gallery-download" class="download-button" download="aze-gaming-house.png"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>Fotoğrafı kaydet</a></div></dialog>
+  <noscript><div class="noscript-notice">3D mekânı keşfetmek için tarayıcınızda JavaScript'i etkinleştirin.</div></noscript>
+</body>
+</html>
+
+
