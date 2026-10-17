@@ -1,11 +1,12 @@
 /** Local, asset-free architectural model. All coordinates are metres. */
+export const CIRCULATION = {rearHalfWidth:2.4, stairHalfWidth:.8, stairWalkHalfWidth:.51, stairStartZ:-3.1, stairEndZ:-9.1};
 export function buildHouse(THREE, scene) {
-  const building = new THREE.Group(); building.name = 'AZES / Gaming House'; scene.add(building);
-  const exterior = new THREE.Group(); exterior.name = 'Landscape & arrival'; scene.add(exterior);
+  const building = new THREE.Group(); building.name = 'AZES / Espor Takım Evi'; scene.add(building);
+  const exterior = new THREE.Group(); exterior.name = 'Bahçe ve giriş'; scene.add(exterior);
   const floors = [new THREE.Group(), new THREE.Group()];
-  floors.forEach((g, i) => { g.name = i ? '01 / Living & recovery' : '00 / Performance'; g.position.y = i * 4.2; building.add(g); });
-  const roof = new THREE.Group(); roof.name = 'Roof'; building.add(roof);
-  const colliders = [], doors = [], hotspots = [], animated = [], interiorLights = [];
+  floors.forEach((g, i) => { g.name = i ? '01 / Yaşam ve toparlanma' : '00 / Performans'; g.position.y = i * 4.2; building.add(g); });
+  const roof = new THREE.Group(); roof.name = 'Çatı'; building.add(roof);
+  const colliders = [], doors = [], hotspots = [], animated = [], interiorLights = [], seating = [];
   const geometry = {
     box: new THREE.BoxGeometry(1, 1, 1), plane: new THREE.PlaneGeometry(1, 1),
     cylinder: new THREE.CylinderGeometry(1, 1, 1, 14), sphere: new THREE.SphereGeometry(1, 12, 8),
@@ -86,20 +87,20 @@ export function buildHouse(THREE, scene) {
     }
     return mesh(p, geometry.plane, signCache.get(key), x, y, z, w, h, 1, ry);
   }
-  const screenTextures = ['PLAYER 01','TEAM / LIVE','AZES / ANALYTICS','BROADCAST / ON AIR'].map((title, idx) => canvasTexture((c, w, h) => {
+  const screenTextures = ['OYUNCU 01','TAKIM / CANLI','AZES / ANALİZ','YAYIN / CANLI'].map((title, idx) => canvasTexture((c, w, h) => {
     const grad = c.createLinearGradient(0, 0, w, h); grad.addColorStop(0, '#102b32'); grad.addColorStop(1, '#050f16'); c.fillStyle = grad; c.fillRect(0, 0, w, h);
     c.strokeStyle = '#1f4147'; c.lineWidth = 1; for (let i = 0; i < 20; i++) { c.beginPath(); c.moveTo(i * 50, 40); c.lineTo(i * 50, h); c.stroke(); }
     for (let i = 0; i < 10; i++) { c.beginPath(); c.moveTo(0, 65 + i * 50); c.lineTo(w, 65 + i * 50); c.stroke(); }
-    c.fillStyle = '#c9f767'; c.fillRect(0, 0, w, 6); c.font = 'bold 25px Arial'; c.fillText(title, 30, 44); c.fillStyle = '#668e96'; c.font = '16px Arial'; c.fillText('PERFORMANCE SYSTEM    •    128 TICK    /    05 ONLINE', 30, 76);
+    c.fillStyle = '#c9f767'; c.fillRect(0, 0, w, 6); c.font = 'bold 25px Arial'; c.fillText(title, 30, 44); c.fillStyle = '#668e96'; c.font = '16px Arial'; c.fillText('PERFORMANS SİSTEMİ    •    05 ÇEVRİMİÇİ', 30, 76);
     if (idx === 2) {
       c.strokeStyle = '#7fa97a'; c.lineWidth = 4; c.strokeRect(76, 115, 400, 290); c.strokeRect(150, 170, 290, 150); c.strokeRect(255, 115, 90, 100);
       for (let i = 0; i < 10; i++) { c.fillStyle = i < 5 ? '#caf467' : '#78d3e0'; c.beginPath(); c.arc(110 + (i * 113) % 335, 160 + (i * 67) % 205, 9, 0, Math.PI * 2); c.fill(); }
-      c.fillStyle = '#a1c4c0'; c.font = '20px Arial'; ['ROUND 14 / REVIEW','EXECUTE A','UTILITY  83%','TRADE RATE  76%'].forEach((t, i) => c.fillText(t, 540, 160 + i * 60));
+      c.fillStyle = '#a1c4c0'; c.font = '20px Arial'; ['14. TUR / İNCELEME','A PLANI','EKİPMAN  %83','TAKAS ORANI  %76'].forEach((t, i) => c.fillText(t, 540, 160 + i * 60));
     } else {
       c.strokeStyle = '#74d6de'; c.lineWidth = 4; c.beginPath(); c.moveTo(35, h - 85); for (let i = 0; i < 25; i++) c.lineTo(35 + i * 30, h - 110 - Math.sin(i * .8 + idx) * 55 - i * 5); c.stroke();
-      c.fillStyle = '#caf467'; c.font = 'bold 62px Arial'; c.fillText(idx === 3 ? 'ON AIR' : 'READY.', 42, 172);
+      c.fillStyle = '#caf467'; c.font = 'bold 62px Arial'; c.fillText(idx === 3 ? 'CANLI YAYIN' : 'HAZIR.', 42, 172);
       c.fillStyle = '#24464c'; for (let i = 0; i < 6; i++) c.fillRect(44 + i * 133, 221, 111, 72);
-      c.fillStyle = '#a3c0bd'; c.font = '15px Arial'; c.fillText('FOCUS   /   PRECISION   /   TEAMWORK', 42, h - 27);
+      c.fillStyle = '#a3c0bd'; c.font = '15px Arial'; c.fillText('ODAK   /   İSABET   /   TAKIM ÇALIŞMASI', 42, h - 27);
     }
   }, 900, 480));
   const screenMats = screenTextures.map(map => new THREE.MeshBasicMaterial({map, side: THREE.DoubleSide}));
@@ -126,7 +127,13 @@ export function buildHouse(THREE, scene) {
       box(g, materials.black, 0, 1.35, .20, .36, .17, .12);
     }
     for (const d of [-1, 1]) { box(g, materials.graphite, d * .39, .64, .02, .07, .36, .07); box(g, materials.black, d * .39, .81, -.04, .12, .07, .39); }
+    colliders.push({minX:x-.45,maxX:x+.45,minZ:z-.45,maxZ:z+.45,floor:p===floors[1]?1:0});
     return g;
+  }
+  function seatAt(p,x,z,targetX,targetZ,gaming=false) {
+    const seat=chair(p,x,z,Math.atan2(x-targetX,z-targetZ),gaming);
+    seating.push({seat,target:new THREE.Vector3(targetX,p.position.y,targetZ)});
+    return seat;
   }
   function desk(p, x, z, w, d, floor, ry = 0, y = .76) {
     const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry; p.add(g);
@@ -148,8 +155,8 @@ export function buildHouse(THREE, scene) {
   }
   function sofa(p, x, z, w = 3.1, ry = 0, floor) {
     const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry; p.add(g);
-    box(g, materials.graphite, 0, .15, 0, w - .2, .2, .95); box(g, materials.fabric, 0, .37, 0, w, .35, 1.08);
-    box(g, materials.fabric, 0, .77, -.48, w, .64, .24); for (const a of [-1, 1]) box(g, materials.darkFabric, a * (w / 2 - .12), .65, 0, .24, .5, 1.1);
+    box(g, materials.graphite, 0, .15, 0, w - .2, .2, .95); box(g, materials.fabric, 0, .37, 0, w - .52, .35, 1.04);
+    box(g, materials.fabric, 0, .77, -.48, w - .52, .64, .24); for (const a of [-1, 1]) box(g, materials.darkFabric, a * (w / 2 - .12), .65, 0, .24, .5, 1.1);
     for (let i = 0; i < 3; i++) box(g, i === 1 ? materials.lime : materials.blueLinen, (i - 1) * w / 3, .7, -.27, .43, .38, .15, .15 * (i - 1));
     if (floor !== undefined) { const c = Math.abs(Math.cos(ry)), s = Math.abs(Math.sin(ry)); colliders.push({minX:x-(w*c+1.1*s)/2,maxX:x+(w*c+1.1*s)/2,minZ:z-(1.1*c+w*s)/2,maxZ:z+(1.1*c+w*s)/2,floor}); }
   }
@@ -157,31 +164,32 @@ export function buildHouse(THREE, scene) {
     const panel = box(p, materials.warmLight, x, 3.52, z, w, .045, d); panel.userData.ceiling = true;
     const rail = box(p, materials.graphite, x, 3.57, z, w + .1, .06, d + .06); rail.userData.ceiling = true;
   }
-  function roomSign(p, text, side, z) { sign(p, text, side * 1.855, 2.65, z, 1.36, .36, side < 0 ? Math.PI / 2 : -Math.PI / 2); }
-  const roomNames = [['01  SCRIM LAB','02  ANALYSIS','03  CONTENT'],['04  TEAM LOUNGE','05  NUTRITION','06  RECOVERY'],['07  RESIDENCE A','08  RESIDENCE B','09  BATH / CARE'],['10  COACH / ADMIN','11  RESET ROOM','12  TERRACE']];
+  function roomSign(p, text, side, z) { sign(p, text, side * (z < -3.1 ? 2.255 : 1.855), 2.65, z, 1.36, .36, side < 0 ? Math.PI / 2 : -Math.PI / 2); }
+  const roomNames = [['01  ANTRENMAN','02  ANALİZ','03  İÇERİK'],['04  TAKIM SALONU','05  BESLENME','06  TOPARLANMA'],['07  YAŞAM A','08  YAŞAM B','09  DUŞ / BAKIM'],['10  KOÇ / YÖNETİM','11  SESSİZ ODA','12  TERAS']];
   // Architectural shell: a 4 m circulation spine links six rooms on each level.
   floors.forEach((p, floor) => {
     if (!floor) box(p, materials.concrete, 0, -.17, 0, 28.5, .3, 22.5);
     else {
       box(p, materials.concrete, -8, -.16, 0, 12, .28, 22.4); box(p, materials.concrete, 8, -.16, 0, 12, .28, 22.4);
-      box(p, materials.concrete, 0, -.16, 3.65, 4, .28, 14.7);
-      box(p, materials.concrete, 0, -.16, -10.65, 4, .28, .7);
-      for (const side of [-1,1]) box(p, materials.oak, side * 1.575, -.08, -7, .85, .16, 6.2);
+      box(p, materials.concrete, 0, -.16, 3.95, 4, .28, 14.1);
+      box(p, materials.concrete, 0, -.16, -10.05, 4.8, .28, 1.9);
+      for (const side of [-1,1]) box(p, materials.oak, side * 1.6, -.08, -6.1, 1.6, .16, 6.0);
     }
-    box(p, materials.oak, 0, .005, 3.5, 3.8, .035, 15);
+    box(p, materials.oak, 0, .005, 3.95, 3.8, .035, 14.1);
     for (const side of [-1, 1]) {
       // Corridor walls split at three real, walkable door openings.
-      for (const [a, b] of [[-11,-8.12],[-5.88,-1.12],[1.12,5.88],[8.12,11]]) solid(p, materials.wall, side * 2, 1.8, (a + b) / 2, .18, 3.6, b - a, floor);
+      for (const [a, b] of [[-11,-8.12],[-5.88,-3.1],[-3.1,-1.12],[1.12,5.88],[8.12,11]]) solid(p, materials.wall, side * ((a+b)/2 < -3.1 ? CIRCULATION.rearHalfWidth : 2), 1.8, (a + b) / 2, .18, 3.6, b - a, floor);
       for (const z of [7, 0, -7]) {
-        box(p, materials.wall, side * 2, 3.25, z, .18, .7, 2.24);
-        const pivot = new THREE.Group(); pivot.position.set(side * 2, 0, z - 1.06); p.add(pivot);
+        const wallX=side*(z < -3.1 ? CIRCULATION.rearHalfWidth : 2);
+        box(p, materials.wall, wallX, 3.25, z, .18, .7, 2.24);
+        const pivot = new THREE.Group(); pivot.position.set(wallX, 0, z - 1.06); p.add(pivot);
         box(pivot, materials.graphite, 0, 1.33, 1.06, .09, 2.66, 2.12);
         box(pivot, materials.tinted, -.052 * side, 1.43, 1.06, .012, 2.25, 1.83);
         box(pivot, materials.metal, -.11 * side, 1.1, 1.89, .16, .035, .26);
         const open = side * Math.PI * .46; pivot.rotation.y = open;
         doors.push({pivot, closed: 0, open, axis: 'y', floor, target: open, isOpen: true});
-        for (const zz of [z - 1.13, z + 1.13]) box(p, materials.graphite, side * 2, 1.35, zz, .23, 2.7, .065);
-        box(p, materials.graphite, side * 2, 2.71, z, .23, .065, 2.32);
+        for (const zz of [z - 1.13, z + 1.13]) box(p, materials.graphite, wallX, 1.35, zz, .23, 2.7, .065);
+        box(p, materials.graphite, wallX, 2.71, z, .23, .065, 2.32);
       }
       for (const z of [3,-4]) solid(p, materials.wall, side * 8, 1.8, z, 12, 3.6, .18, floor);
       // Long side windows: concrete plinth, glazing, slender structure.
@@ -211,60 +219,60 @@ export function buildHouse(THREE, scene) {
       colliders.push({minX:-2,maxX:2,minZ:10.88,maxZ:11.12,floor});
     } else {
       for (const side of [-1,1]) { box(p, materials.graphite, side * 1.75, 1.6, 11, .1, 3.2, .16); box(p, materials.glass, side * 1.35, 1.55, 11, .7, 3.0, .055); }
-      box(p, materials.graphite, 0, 3.2, 11, 3.6, .18, .2); sign(p, 'AZES  /  WELCOME', 0, 2.88, 10.85, 2.1, .34, Math.PI);
+      box(p, materials.graphite, 0, 3.2, 11, 3.6, .18, .2); sign(p, 'AZES  /  HOŞ GELDİNİZ', 0, 2.88, 10.85, 2.1, .34, Math.PI);
     }
     solid(p, materials.wall, 0, 1.8, -11, 4, 3.6, .2, floor);
-    sign(p, floor ? '01  /  LIVE WELL. PLAY BETTER.' : '00  /  BUILT FOR THE NEXT LEVEL.', 0, 2.7, -10.87, 3.2, .55);
+    sign(p, floor ? '01  /  İYİ YAŞA. DAHA İYİ OYNA.' : '00  /  BİR SONRAKİ SEVİYE İÇİN.', 0, 2.7, -10.87, 3.2, .55);
   });
   // Surface palette makes every activity zone legible in the dollhouse view.
   for (const [floor,x,z,w,d,mat] of [[0,-8,7,11.8,7.8,materials.carpet],[0,-8,-.5,11.8,6.8,materials.oak],[0,-8,-7.5,11.8,6.8,materials.carpet],[0,8,7,11.8,7.8,materials.oak],[0,8,-.5,11.8,6.8,materials.tile],[0,8,-7.5,11.8,6.8,materials.rubber],[1,-8,7,11.8,7.8,materials.oak],[1,-8,-.5,11.8,6.8,materials.oak],[1,-8,-7.5,11.8,6.8,materials.tile],[1,8,7,11.8,7.8,materials.oak],[1,8,-.5,11.8,6.8,materials.fabric],[1,8,-7.5,11.8,6.8,materials.oak]]) box(floors[floor], mat, x, .025, z, w, .045, d);
   // Straight stair, deliberately free of obstacle boxes: navigation follows its slope.
   for (let i = 0; i < 24; i++) {
-    const h = (i + 1) * .175, z = -4 - (i + .5) * .25;
-    box(floors[0], materials.oak, 0, h - .1, z, 2.3, .2, .27);
-    box(floors[0], materials.graphite, 0, h - .2, z + .11, 2.3, .2, .035);
-    box(floors[0], materials.led, .98, h + .008, z + .08, .18, .015, .025);
+    const h = (i + 1) * .175, z = CIRCULATION.stairStartZ - (i + .5) * .25;
+    box(floors[0], materials.oak, 0, h - .1, z, 1.6, .2, .27);
+    box(floors[0], materials.graphite, 0, h - .2, z + .11, 1.6, .2, .035);
+    box(floors[0], materials.led, .63, h + .008, z + .08, .18, .015, .025);
   }
   for (const side of [-1,1]) {
-    for (let i = 0; i <= 6; i++) { const z = -4 - i; cyl(floors[0], materials.metal, side * 1.12, i * .7 + .52, z, .028, 1.04); }
-    const rail = box(floors[0], materials.oak, side * 1.12, 3.1, -7, .07, .07, 7.32); rail.rotation.x = .61;
-    const glass = box(floors[0], materials.glass, side * 1.12, 2.65, -7, .025, .78, 7.25); glass.rotation.x = .61;
-    solid(floors[1], materials.glass, side * 1.15, .53, -7.0, .035, 1.06, 5.7, 1);
-    box(floors[1], materials.metal, side * 1.15, 1.08, -7.0, .05, .045, 5.7);
+    for (let i = 0; i <= 6; i++) { const z = CIRCULATION.stairStartZ - i; cyl(floors[0], materials.metal, side * .77, i * .7 + .52, z, .028, 1.04); }
+    const rail = box(floors[0], materials.oak, side * .77, 3.1, -6.1, .07, .07, 7.32); rail.rotation.x = .61;
+    const glass = box(floors[0], materials.glass, side * .77, 2.65, -6.1, .025, .78, 7.25); glass.rotation.x = .61;
+    solid(floors[1], materials.glass, side * .8, .53, -6.1, .035, 1.06, 5.7, 1);
+    box(floors[1], materials.metal, side * .8, 1.08, -6.1, .05, .045, 5.7);
   }
-  solid(floors[1], materials.glass, 0, .53, -4.13, 2.3, 1.06, .035, 1);
-  box(floors[1], materials.metal, 0, 1.08, -4.13, 2.35, .045, .05);
-  sign(floors[0], '↑   RESIDENCE / RESET', 1.84, 2.8, -3.5, 1.95, .36, -Math.PI/2);
+  solid(floors[1], materials.glass, 0, .53, -3.23, 1.6, 1.06, .035, 1);
+  box(floors[1], materials.metal, 0, 1.08, -3.23, 1.65, .045, .05);
+  sign(floors[0], '↑   YAŞAM / DİNLENME', 1.84, 2.8, -3.5, 1.95, .36, -Math.PI/2);
   // 01: six player workstations, with a separate dual-monitor coach station.
   const g = floors[0];
   [-12.5,-10.65,-8.8,-6.95,-5.1,-3.25].forEach((x,i) => {
     const st = desk(g,x,9.65,1.7,.83,0);
     screen(st,0,1.37,.19,1.10,.65,Math.PI,i % 2); keyboard(st,0,.82,-.17); pc(st,.65,0,.82);
-    chair(g,x,8.35,0,true);
-    sign(g,`0${i+1} / READY`,x,2.97,10.84,1.6,.3,Math.PI);
+    seatAt(g,x,8.35,x,9.65,true);
+    sign(g,`0${i+1} / HAZIR`,x,2.97,10.84,1.6,.3,Math.PI);
   });
-  { const st = desk(g,-11.6,4.38,2.8,.9,0); screen(st,-.52,1.4,-.2,1.15,.65,0,2); screen(st,.7,1.4,-.2,1.15,.65,0,1); keyboard(st,0,.83,.15); chair(g,-11.6,5.65,Math.PI,true); pc(g,-10.7,4.4); }
+  { const st = desk(g,-11.6,4.38,2.8,.9,0); screen(st,-.52,1.4,-.2,1.15,.65,0,2); screen(st,.7,1.4,-.2,1.15,.65,0,1); keyboard(st,0,.83,.15); seatAt(g,-11.6,5.65,-11.6,4.38,true); pc(g,-10.7,4.4); }
   screen(g,-13.82,2.22,6.8,3.4,1.82,Math.PI/2,1,false);
   for (let i=0;i<6;i++) { const a = box(g,materials.graphite,-13.77,2.5,3.7+i*.55,.12,1.1,.25); }
   box(g,materials.led,-8,3.27,10.83,11.1,.045,.05); ceilingLight(g,-8,7,8,.15); ceilingLight(g,-8,5,8,.15); plant(g,-3,3.9,.8);
   solid(g,materials.graphite,-4.4,.96,4.25,.8,1.9,.68,0);
   box(g,materials.tinted,-4.4,1.1,4.602,.68,1.48,.025);
   for(let i=0;i<8;i++){box(g,materials.black,-4.4,.45+i*.155,4.63,.61,.11,.04);box(g,materials.led,-4.64,.46+i*.155,4.66,.035,.025,.015);}
-  sign(g,'NETWORK / UPS',-4.4,2.13,4.65,1.15,.21);
+  sign(g,'AĞ / KESİNTİSİZ GÜÇ',-4.4,2.13,4.65,1.15,.21);
   // 02: a dedicated review room with tactical wall and coach seating.
   screen(g,-9.1,2.17,-3.82,5.5,2.62,0,2,false);
   desk(g,-10,-.25,4.6,2,0,0,.77);
-  for (let i=0;i<3;i++) { chair(g,-11.5+i*1.5,1.3,Math.PI); chair(g,-11.5+i*1.5,-1.8,0); }
+  for (let i=0;i<3;i++) { seatAt(g,-11.5+i*1.5,1.3,-11.5+i*1.5,-.25); seatAt(g,-11.5+i*1.5,-1.8,-11.5+i*1.5,-.25); }
   box(g,materials.graphite,-10,.83,-.25,1.25,.035,.72); screen(g,-10,1.06,-.25,.65,.37,0,2,false);
-  sign(g,'REVIEW. ADAPT. WIN.',-13.82,2.6,-.4,4.3,.65,Math.PI/2); plant(g,-3.1,-3.0); ceilingLight(g,-8,.5,8,.17);
+  sign(g,'İNCELE. UYARLA. KAZAN.',-13.82,2.6,-.4,4.3,.65,Math.PI/2); plant(g,-3.1,-3.0); ceilingLight(g,-8,.5,8,.17);
   box(g,materials.white,-4.1,1.48,-3.82,2.2,1.65,.075);
   for (let i=0;i<4;i++) box(g,i%2?materials.cyan:materials.lime,-4.7+i*.4,1.68-(i%2)*.37,-3.76,.22,.22,.025);
   // 03: creator room: acoustic booth, streaming desk, interview set and camera.
   for (let i=0;i<15;i++) box(g,i%2?materials.graphite:materials.darkFabric,-13.76,2.0,-10.55+i*.41,.18,2.8,.29);
-  const st = desk(g,-11.0,-9.55,4.0,.96,0); screen(st,-.75,1.4,-.18,1.28,.72,0,3); screen(st,.65,1.4,-.18,1.28,.72,0,1); keyboard(st,0,.83,.16); pc(st,1.6,0,.82); chair(g,-11,-8.25,Math.PI,true);
+  const st = desk(g,-11.0,-9.55,4.0,.96,0); screen(st,-.75,1.4,-.18,1.28,.72,0,3); screen(st,.65,1.4,-.18,1.28,.72,0,1); keyboard(st,0,.83,.16); pc(st,1.6,0,.82); seatAt(g,-11,-8.25,-11,-9.55,true);
   box(g,materials.graphite,-11,1.53,-9.57,.05,.03,.8); cyl(g,materials.metal,-11,1.7,-9.17,.035,.34); sphere(g,materials.black,-11,1.91,-9.17,.06,.12,.06);
-  sofa(g,-4.4,-9.65,2.65,0,0); cyl(g,materials.oak,-4.4,.4,-7.8,.66,.09); cyl(g,materials.graphite,-4.4,.21,-7.8,.08,.4);
-  sign(g,'AZES\nCONTENT STUDIO',-4.6,2.3,-10.84,3.8,.95,0); box(g,materials.cyan,-4.6,3.15,-10.8,4.5,.04,.04);
+  sofa(g,-4.4,-9.65,2.65,0,0); cyl(g,materials.oak,-5.4,.4,-8.2,.66,.09); cyl(g,materials.graphite,-5.4,.21,-8.2,.08,.4);
+  sign(g,'AZES\nİÇERİK STÜDYOSU',-4.6,2.3,-10.84,3.8,.95,0); box(g,materials.cyan,-4.6,3.15,-10.8,4.5,.04,.04);
   const camera = new THREE.Group(); camera.position.set(-5.3,0,-5.5); camera.rotation.y=Math.PI; g.add(camera);
   for(const a of [0,2.1,4.2]) { const leg=box(camera,materials.metal,Math.sin(a)*.25,.65,Math.cos(a)*.25,.04,1.35,.04); leg.rotation.z=Math.cos(a)*.34; leg.rotation.x=Math.sin(a)*.34; }
   box(camera,materials.black,0,1.45,0,.42,.32,.32); cyl(camera,materials.black,0,1.45,.29,.15,.34).rotation.x=Math.PI/2; box(camera,materials.led,.25,1.57,0,.04,.04,.04);
@@ -278,9 +286,9 @@ export function buildHouse(THREE, scene) {
   solid(g,materials.oak,10.2,.39,6.15,2.8,.15,1.25,0); for(const x of [9.3,11.1]) cyl(g,materials.graphite,x,.19,6.15,.035,.34);
   box(g,materials.fabric,9.8,.07,6.7,6.1,.04,4.7); screen(g,8.3,2.17,3.15,5.0,2.5,0,1,false);
   solid(g,materials.oak,8.3,.35,3.55,5.2,.6,.6,0); box(g,materials.led,8.3,.17,3.88,5,.025,.02);
-  for(const z of [5.3,7.3,9.3]) { box(g,materials.oak,2.48,1.6,z,.5,.08,1.5); box(g,materials.graphite,2.23,1.58,z,.045,1.45,1.5); }
-  for(let i=0;i<6;i++) { const z=4.9+i*.7; cyl(g,materials.gold,2.52,1.84,z,.12,.34); cyl(g,materials.graphite,2.52,1.66,z,.16,.06); const cup=mesh(g,geometry.cone,materials.gold,2.52,2.06,z,.22,.22,.22); cup.rotation.z=Math.PI; }
-  sign(g,'THE TEAM\nBEYOND THE GAME',13.83,2.7,6.7,4.2,.85,-Math.PI/2); plant(g,13,10.2,1.25); plant(g,3.1,10,.9); ceilingLight(g,8,7,8,.15);
+  for(const x of [4.3,6,7.7]) { box(g,materials.oak,x,1.6,10.55,1.5,.08,.5); box(g,materials.graphite,x,1.58,10.8,1.5,1.45,.045); }
+  for(let i=0;i<6;i++) { const x=3.9+i*.7; cyl(g,materials.gold,x,1.84,10.55,.12,.34); cyl(g,materials.graphite,x,1.66,10.55,.16,.06); const cup=mesh(g,geometry.cone,materials.gold,x,2.06,10.55,.22,.22,.22); cup.rotation.z=Math.PI; }
+  sign(g,'TAKIM\nOYUNUN ÖTESİNDE',13.83,2.7,6.7,4.2,.85,-Math.PI/2); plant(g,13,10.2,1.25); plant(g,3.1,10,.9); ceilingLight(g,8,7,8,.15);
   // 05: nutrition: full kitchen, coffee/water station and shared dining.
   for(let i=0;i<5;i++) {
     const x=7.2+i*1.25; solid(g,materials.graphite,x,.47,-3.3,1.22,.93,1.15,0); box(g,materials.oak,x,.97,-3.3,1.26,.08,1.2);
@@ -291,10 +299,10 @@ export function buildHouse(THREE, scene) {
   box(g,materials.black,8.45,.51,-2.71,.87,.55,.025); box(g,materials.glass,8.45,.51,-2.69,.73,.39,.016);
   box(g,materials.metal,11.9,1.025,-3.3,.85,.03,.62); box(g,materials.black,11.9,1.043,-3.3,.65,.012,.43); cyl(g,materials.metal,11.9,1.22,-3.62,.025,.39); box(g,materials.metal,11.9,1.41,-3.51,.05,.035,.25);
   solid(g,materials.oak,10.45,.77,.25,4.65,.11,2.0,0); for(const x of [8.5,12.4]) for(const z of [-.45,.95]) box(g,materials.graphite,x,.37,z,.075,.7,.075);
-  for(let i=0;i<3;i++){chair(g,9+i*1.4,1.9,Math.PI);chair(g,9+i*1.4,-1.3,0);cyl(g,materials.white,9+i*1.4,.84,.25,.2,.02);cyl(g,materials.glass,9.45+i*1.4,.92,.25,.055,.17);}
+  for(let i=0;i<3;i++){seatAt(g,9+i*1.4,1.9,9+i*1.4,.25);seatAt(g,9+i*1.4,-1.3,9+i*1.4,.25);cyl(g,materials.white,9+i*1.4,.84,.25,.2,.02);cyl(g,materials.glass,9.45+i*1.4,.92,.25,.055,.17);}
   cyl(g,materials.white,10.5,.91,.3,.28,.15); for(let i=0;i<5;i++) sphere(g,i%2?materials.lime:materials.gold,10.45+Math.sin(i*2)*.15,1.04,.3+Math.cos(i*2)*.15,.09);
   solid(g,materials.white,3.65,.6,1.9,1.8,1.2,.65,0); box(g,materials.black,3.6,1.51,1.9,.5,.6,.42); cyl(g,materials.metal,4.15,1.37,1.9,.14,.35);
-  sign(g,'FUEL YOUR PERFORMANCE',8.1,3.08,-3.85,7.3,.4); plant(g,13,2.05,.8); ceilingLight(g,8,-.2,8,.15);
+  sign(g,'PERFORMANSINI BESLE',8.1,3.08,-3.85,7.3,.4); plant(g,13,2.05,.8); ceilingLight(g,8,-.2,8,.15);
   // 06: performance and recovery: strength, cardio, mobility and physio.
   box(g,materials.metal,13.78,1.95,-7.7,.035,2.7,5.2); box(g,materials.tinted,13.75,1.95,-7.7,.02,2.65,5.1);
   for(const x of [9.5,11.7]) {
@@ -311,25 +319,26 @@ export function buildHouse(THREE, scene) {
     for(const xx of [x-.14,x+.14]) { const d2=cyl(g,materials.black,xx,.82,-5.1,.095,.075); d2.rotation.z=Math.PI/2; }
   }
   box(g,materials.blueLinen,7.8,.075,-5.5,1.2,.04,2.25); box(g,materials.lime,9.6,.075,-5.5,1.2,.04,2.25);
-  solid(g,materials.white,3.75,.7,-5.4,2.2,.18,1.25,0); box(g,materials.blueLinen,3.75,.82,-5.4,2.0,.07,1.13); sign(g,'MOVE / RECOVER / REPEAT',8.1,3.14,-10.85,7.5,.4); ceilingLight(g,8,-7.2,8,.15);
+  solid(g,materials.white,3.75,.7,-5.4,2.2,.18,1.25,0); box(g,materials.blueLinen,3.75,.82,-5.4,2.0,.07,1.13); sign(g,'HAREKET / TOPARLANMA / TEKRAR',8.1,3.14,-10.85,7.5,.4); ceilingLight(g,8,-7.2,8,.15);
   // 07–08: six single beds, individual storage and calm desk corners.
   const u=floors[1];
   function bed(p,x,z,floor,n) {
-    solid(p,materials.oak,x,.28,z,1.9,.45,2.65,floor); box(p,materials.linen,x,.57,z,1.82,.25,2.55);
-    box(p,materials.oak,x,1.0,z+1.38,2.08,1.45,.13); box(p,materials.blueLinen,x,.73,z-.35,1.84,.1,1.7);
-    box(p,materials.linen,x,.75,z+.85,1.25,.18,.47); box(p,materials.lime,x,.79,z-.83,1.84,.035,.37);
+    const half=n>3?1.1:1.325;
+    solid(p,materials.oak,x,.28,z,1.9,.45,half*2,floor); box(p,materials.linen,x,.57,z,1.82,.25,half*2-.1);
+    box(p,materials.oak,x,1.0,z+half+.055,2.08,1.45,.13); box(p,materials.blueLinen,x,.73,z-.25,1.84,.1,half*1.2);
+    box(p,materials.linen,x,.75,z+half-.45,1.25,.18,.47); box(p,materials.lime,x,.79,z-.83,1.84,.035,.37);
     box(p,materials.oak,x+1.3,.42,z+.82,.58,.72,.65); cyl(p,materials.graphite,x+1.3,.95,z+.82,.025,.35); cyl(p,materials.warmLight,x+1.3,1.18,z+.82,.2,.23);
-    sign(p,`PLAYER ${n}`,x,1.91,z+1.46,1.25,.24,Math.PI);
+    sign(p,`OYUNCU ${n}`,x,1.91,z+half+.135,1.25,.24,Math.PI);
   }
-  [-12,-8.3,-4.6].forEach((x,i)=> {bed(u,x,9.35,1,i+1);bed(u,x,1.33,1,i+4);});
+  [-12,-8.3,-4.6].forEach((x,i)=> {bed(u,x,9.35,1,i+1);bed(u,x,1.5,1,i+4);});
   // Each sleeping alcove gains a privacy screen and a partially drawn curtain.
-  for(const z of [9.35,1.33]){
-    for(const x of [-10.15,-6.45])solid(u,materials.oak,x,1.18,z,.09,2.36,2.85,1);
-    for(const x of [-12.7,-9,-5.3])box(u,materials.fabric,x,1.98,z+1.38,1.15,2.5,.045);
+  for(const z of [9.35,1.5]){
+    for(const x of [-10.15,-6.45])solid(u,materials.oak,x,1.18,z,.09,2.36,z<3?2.4:2.85,1);
+    for(const x of [-12.7,-9,-5.3])box(u,materials.fabric,x,1.98,z+(z<3?1.155:1.38),1.15,2.5,.045);
   }
   for(const z of [4.05,-2.96]) {
     solid(u,materials.white,-11.4,1.25,z,4.15,2.5,.8,1); for(const x of [-12.7,-11.4,-10.1]) {box(u,materials.oak,x,1.25,z+.415,.028,2.35,.02);box(u,materials.metal,x+.25,1.3,z+.44,.035,.34,.035);}
-    const dg=desk(u,-5.4,z+.18,3.5,.8,1); screen(dg,0,1.35,-.17,1.15,.65,0,0); keyboard(dg,0,.82,.15); chair(u,-5.4,z+1.34,Math.PI); plant(u,-13.1,z+1.3,.65);
+    const dg=desk(u,-5.4,z+.18,3.5,.8,1); screen(dg,0,1.35,-.17,1.15,.65,0,0); keyboard(dg,0,.82,.15); seatAt(u,-5.4,z+1.34,-5.4,z+.18); plant(u,-13.1,z+1.3,.65);
   }
   ceilingLight(u,-8,6.7,8,.14); ceilingLight(u,-8,-1.2,8,.14);
   // 09: shower suites, WC enclosures, double vanity and a separate laundry wall.
@@ -344,26 +353,27 @@ export function buildHouse(THREE, scene) {
     solid(u,materials.white,x,.63,-4.74,1.18,1.25,1.02,1); const ring=mesh(u,geometry.torus,materials.metal,x,.58,-5.26,.37,.37,.37); mesh(u,geometry.plane,materials.tinted,x,.58,-5.27,.61,.61,1,Math.PI);
     box(u,materials.graphite,x,1.08,-5.26,.9,.15,.025); box(u,materials.oak,x,1.4,-4.74,1.25,.08,1.05);
   }
-  sign(u,'RESET / REFRESH',-7.9,3.08,-10.86,5.9,.4); ceilingLight(u,-8,-7,8,.18);
+  sign(u,'DİNLEN / YENİLEN',-7.9,3.08,-10.86,5.9,.4); ceilingLight(u,-8,-7,8,.18);
   // 10: head coach, administration and confidential one-to-one meetings.
   const cd=desk(u,10.6,9.25,4.5,1.1,1); screen(cd,-.65,1.46,.07,1.3,.73,Math.PI,2); screen(cd,.75,1.46,.07,1.3,.73,Math.PI,1); keyboard(cd,0,.83,-.25);
-  chair(u,10.6,10.35,0,true); chair(u,9.7,7.8,Math.PI); chair(u,11.4,7.8,Math.PI);
-  desk(u,5.15,4.95,3.4,1.25,1); chair(u,4.5,6.15,Math.PI);chair(u,5.9,6.15,Math.PI);chair(u,5.2,3.9,0);
+  seatAt(u,10.6,10.35,10.6,9.25,true); seatAt(u,9.7,7.8,9.7,9.25); seatAt(u,11.4,7.8,11.4,9.25);
+  desk(u,5.15,4.95,3.4,1.25,1); seatAt(u,4.5,6.15,4.5,4.95);seatAt(u,5.9,6.15,5.9,4.95);seatAt(u,5.2,3.9,5.2,4.95);
   for(let i=0;i<4;i++) {box(u,materials.oak,13.48,.5+i*.68,7,.65,.07,5.0);for(let j=0;j<5;j++)box(u,j%2?materials.white:materials.lime,13.45,.8+i*.68,5.3+j*.76,.33,.5,.12);}
-  sign(u,'COACH / TEAM OPERATIONS',9.3,2.75,3.14,6.8,.55); plant(u,3.1,10,.9); ceilingLight(u,8,7,8,.15);
+  sign(u,'KOÇ / TAKIM YÖNETİMİ',9.3,2.75,3.14,6.8,.55); plant(u,3.1,10,.9); ceilingLight(u,8,7,8,.15);
   // 11: restorative room, soft daylight and a quiet reading zone.
-  sofa(u,11.3,-2.8,3.1,0,1); chair(u,12.4,.6,-Math.PI/2); cyl(u,materials.oak,10.5,.46,-.4,.68,.1); cyl(u,materials.graphite,10.5,.23,-.4,.06,.43);
+  sofa(u,11.3,-2.8,3.1,0,1); seatAt(u,12.4,.6,10.5,-.4); cyl(u,materials.oak,10.5,.46,-.4,.68,.1); cyl(u,materials.graphite,10.5,.23,-.4,.06,.43);
   box(u,materials.linen,5.5,.07,-.3,3.6,.06,4.7); box(u,materials.blueLinen,5.0,.14,-.4,1.1,.1,2.2); box(u,materials.fabric,6.5,.14,-.4,1.1,.1,2.2);
   sphere(u,materials.darkFabric,4.7,.3,1.9,.5,.26,.5); sphere(u,materials.darkFabric,6.4,.3,1.9,.5,.26,.5);
   for(let i=0;i<6;i++) {box(u,materials.oak,13.45,.4+i*.45,-1,.7,.06,4.2); for(let j=0;j<7;j++)box(u,j%3?materials.fabric:materials.blueLinen,13.4,.63+i*.45,-2.6+j*.5,.36,.37,.11);}
-  sign(u,'BREATHE. RESET. RECONNECT.',8.2,2.92,-3.85,8.1,.48); plant(u,3.2,-3.05,1.25);plant(u,12.9,2.0,1.3);ceilingLight(u,8,0,8,.15);
+  sign(u,'NEFES AL. DİNLEN. YENİLEN.',8.2,2.92,-3.85,8.1,.48); plant(u,3.2,-3.05,1.25);plant(u,12.9,2.0,1.3);ceilingLight(u,8,0,8,.15);
   // 12: open air terrace: pergola, planter border and social tables.
   for(const x of [3.3,12.7]) for(const z of [-5,-10]) box(u,materials.oak,x,1.65,z,.16,3.3,.16);
   for(let i=0;i<12;i++) box(u,materials.oak,3.3+i*.855,3.35,-7.5,.1,.18,5.6);
   sofa(u,11.0,-9.75,3.2,0,1); sofa(u,12.8,-7.3,2.7,-Math.PI/2,1);
-  solid(u,materials.oak,10.5,.42,-7.5,2.1,.12,1.1,1); cyl(u,materials.oak,4.5,.75,-6.1,.8,.1);cyl(u,materials.graphite,4.5,.36,-6.1,.06,.72);chair(u,4.4,-4.9,Math.PI);chair(u,4.4,-7.3,0);
+  solid(u,materials.oak,10.5,.42,-7.5,2.1,.12,1.1,1); cyl(u,materials.oak,8,.75,-5.6,.8,.1);cyl(u,materials.graphite,8,.36,-5.6,.06,.72);seatAt(u,6.8,-5.6,8,-5.6);seatAt(u,9.2,-5.6,8,-5.6);
+  colliders.push({minX:7.2,maxX:8.8,minZ:-6.4,maxZ:-4.8,floor:1});
   for(const x of [4,6.5,9,11.5]) {solid(u,materials.graphite,x,.35,-10.35,2.25,.65,.65,1);for(const xx of [x-.6,x,x+.6])plant(u,xx,-10.35,.5,.66);}
-  sign(u,'OFFLINE / TOGETHER',13.79,2.55,-7.5,4.3,.55,-Math.PI/2); plant(u,3.1,-9.1,1.2);
+  sign(u,'EKRANSIZ / BİRLİKTE',13.79,2.55,-7.5,4.3,.55,-Math.PI/2); plant(u,3.1,-9.1,1.2);
   // Roofs and external detailing are isolated for exploded/section views.
   box(roof,materials.graphite,-8,8.03,0,12.5,.38,22.8); box(roof,materials.graphite,8,8.03,3.5,12.5,.38,15.8);box(roof,materials.graphite,0,8.03,0,4.1,.38,22.8);
   box(roof,materials.concrete,-8,8.27,0,12.2,.12,22.4);box(roof,materials.concrete,8,8.27,3.5,12.2,.12,15.5);box(roof,materials.concrete,0,8.27,0,4,.12,22.4);
@@ -372,7 +382,7 @@ export function buildHouse(THREE, scene) {
   for(const side of [-1,1]) {box(building,materials.graphite,side*8,4,11.15,12.3,.43,.45);box(building,materials.graphite,side*8,4,-11.15,12.3,.43,.45);}
   for(const x of [-13.1,-12.8,-12.5,-12.2,12.2,12.5,12.8,13.1]) box(building,materials.oak,x,4.05,11.28,.12,7.5,.24);
   box(building,materials.graphite,0,3.7,11.65,5.4,.27,2.2); box(building,materials.led,0,3.54,12.71,4.8,.035,.025);
-  sign(building,'AZES',0,4.18,12.78,3.45,.65); sign(building,'E S P O R T S   /   G A M I N G   H O U S E',0,3.86,12.79,3.45,.19,0,'#eeeee8');
+  sign(building,'AZES',0,4.18,12.78,3.45,.65); sign(building,'E S P O R   /   T A K I M   E V İ',0,3.86,12.79,3.45,.19,0,'#eeeee8');
   // Landscape: native planting, accessible entry, visitor parking and garden loop.
   box(exterior,materials.grass,0,-.42,0,86,.3,75); box(exterior,materials.gravel,0,-.23,0,39,.09,29);
   box(exterior,materials.concrete,0,-.07,15.8,5.7,.12,10);box(exterior,materials.concrete,0,-.085,21,47,.1,3.4);
@@ -393,7 +403,7 @@ export function buildHouse(THREE, scene) {
     for(const z of [14,18.5,22]) {box(exterior,materials.graphite,side*3.5,.42,z,.12,.9,.12);box(exterior,materials.warmLight,side*3.5,.82,z,.16,.12,.16);}
   }
   for(const x of [-9,9]) {box(exterior,materials.oak,x,.47,16.4,4,.13,.65);for(const xx of [x-1.6,x+1.6])box(exterior,materials.graphite,xx,.22,16.4,.16,.45,.65);}
-  box(exterior,materials.graphite,-8,.62,21,4.8,1.4,.36);sign(exterior,'AZES\nPERFORMANCE. TOGETHER.',-8,.78,21.2,4.3,1.05);
+  box(exterior,materials.graphite,-8,.62,21,4.8,1.4,.36);sign(exterior,'AZES\nPERFORMANS. BİRLİKTE.',-8,.78,21.2,4.3,1.05);
   // Interior illumination: emissive strips plus six inexpensive area stand-ins.
   [[-8,7],[-8,-.5],[-8,-7.5],[8,7],[8,-.5],[8,-7.5]].forEach(([x,z])=> {const l=new THREE.PointLight('#fff1d5',8,15,1.5);l.position.set(x,3.1,z);l.castShadow=false;g.add(l);interiorLights.push(l);});
   const points=[['scrim',-7,1.7,7],['analysis',-6.5,1.7,0],['studio',-7,1.7,-7],['lounge',7,1.7,7],['nutrition',7,1.7,0],['gym',7,1.7,-7],['sleep-a',-7,5.9,7],['sleep-b',-7,5.9,-1.2],['bath',-7.5,5.9,-6.7],['coach',7,5.9,7],['quiet',8,5.9,0],['terrace',7,5.9,-7]];
@@ -430,6 +440,6 @@ export function buildHouse(THREE, scene) {
   floors.forEach(p=>packStatic(p,true,new Set(doors.map(d=>d.pivot))));
   packStatic(roof);packStatic(exterior);packStatic(building,false,new Set([...floors,roof]));
   building.updateMatrixWorld(true);exterior.updateMatrixWorld(true);
-  return {building,floors,roof,exterior,colliders,doors,hotspots,animated,materials,setNight};
+  return {building,floors,roof,exterior,colliders,doors,hotspots,animated,materials,setNight,seating,circulation:CIRCULATION};
 }
 

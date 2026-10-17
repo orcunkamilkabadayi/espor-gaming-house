@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { buildHouse } from './scene.js';
+import { buildHouse, CIRCULATION } from './scene.js';
 import { ROOMS, SOURCES } from './data.js';
 
 const $ = (s) => document.querySelector(s);
@@ -40,7 +40,7 @@ function setVisibility(){
 }
 function syncLocation(){
   const room=roomById(state.room);
-  $('#location-name').textContent=state.view==='outside'?'AZES Gaming House':room?.name||(state.floor===0?'Performans katı':'Yaşam katı');
+  $('#location-name').textContent=state.view==='outside'?'AZES Espor Takım Evi':room?.name||(state.floor===0?'Performans katı':'Yaşam katı');
   $('#location-meta').textContent=state.view==='outside'?'İKİ KATLI TAKIM EVİ · DIŞ MEKÂN':`${state.floor===0?'01 / PERFORMANS':'02 / YAŞAM'}${room?' · '+room.area+' m² KONSEPT ALAN':''}`;
   $('#info-btn').hidden=!room;
   $$('#room-list button').forEach(el=>{const a=el.dataset.room===state.room;el.classList.toggle('active',a);el.setAttribute('aria-pressed',String(a));});
@@ -162,7 +162,7 @@ function photograph(){
   renderer.render(scene,camera);
   const data=renderer.domElement.toDataURL('image/png');
   $('#gallery-image').src=data;
-  $('#gallery-download').href=data;$('#gallery-download').download=`AZES-gaming-house-${state.room||state.view}-${state.night?'gece':'gunduz'}.png`;
+  $('#gallery-download').href=data;$('#gallery-download').download=`AZES-espor-takim-evi-${roomById(state.room)?.short||({outside:'dis-mekan',orbit:'kat-gorunumu',walk:'gezinti'}[state.view])}-${state.night?'gece':'gunduz'}.png`;
   $('#gallery-dialog').showModal();
 }
 function startTour(){
@@ -203,24 +203,26 @@ function movePlayer(dt){
   const dz=(-Math.cos(yaw)*forward-Math.sin(yaw)*side)*speed;
   const currentFloor=getFloorAt(camera.position);
   let nx=camera.position.x+dx,nz=camera.position.z+dz;
-  const inRamp=(x,z)=>Math.abs(x)<1.05&&z<-4.05&&z>-10.15;
-  if(state.stairs&&camera.position.z>-9.9&&camera.position.z<-4.1&&Math.abs(nx)>=1.04)nx=THREE.MathUtils.clamp(nx,-1.035,1.035);
+  const {stairStartZ,stairEndZ,stairWalkHalfWidth}=CIRCULATION;
+  const inRamp=(x,z)=>Math.abs(x)<stairWalkHalfWidth&&z<stairStartZ-.05&&z>stairEndZ-.15;
+  if(state.stairs&&camera.position.z>stairEndZ+.1&&camera.position.z<stairStartZ-.1&&Math.abs(nx)>=stairWalkHalfWidth)nx=THREE.MathUtils.clamp(nx,-stairWalkHalfWidth+.005,stairWalkHalfWidth-.005);
   // Enter the upper landing from the rear, not through the stairwell guard.
-  if(currentFloor===1&&!state.stairs&&inRamp(nx,nz)&&camera.position.z>-9.85){nx=camera.position.x;nz=camera.position.z;}
+  if(currentFloor===1&&!state.stairs&&inRamp(nx,nz)&&camera.position.z>stairEndZ+.15){nx=camera.position.x;nz=camera.position.z;}
   if(!blocked(nx,camera.position.z,currentFloor))camera.position.x=nx;
   if(!blocked(camera.position.x,nz,currentFloor))camera.position.z=nz;
   if(inRamp(camera.position.x,camera.position.z)){
     state.stairs=true;
-    camera.position.y=CAMERA_HEIGHT+THREE.MathUtils.clamp((-camera.position.z-4)/6,0,1)*FLOOR_HEIGHT;
+    camera.position.y=CAMERA_HEIGHT+THREE.MathUtils.clamp((stairStartZ-camera.position.z)/(stairStartZ-stairEndZ),0,1)*FLOOR_HEIGHT;
   }else{
-    if(state.stairs){state.floor=camera.position.z<=-10?1:0;state.stairs=false;}
+    if(state.stairs){state.floor=camera.position.z<=stairEndZ+.1?1:0;state.stairs=false;}
     camera.position.y=CAMERA_HEIGHT+state.floor*FLOOR_HEIGHT;
   }
   if(!state.stairs&&currentFloor!==state.floor){state.floor=currentFloor;renderRooms();setVisibility();}
   const floorNow=getFloorAt(camera.position);
   if(state.stairs&&floorNow!==state.floor){state.floor=floorNow;renderRooms();setVisibility();}
   if(!state.stairs){
-    const room=ROOMS.find(r=>r.floor===state.floor&&((camera.position.x<-2&&r.pos[0]<0)||(camera.position.x>2&&r.pos[0]>0))&&((camera.position.z>=3&&r.pos[2]>3)||(camera.position.z<3&&camera.position.z>=-4&&r.pos[2]>=-4&&r.pos[2]<3)||(camera.position.z<-4&&r.pos[2]<-4)));
+    const corridorHalf=camera.position.z < -3.1 ? CIRCULATION.rearHalfWidth : 2;
+    const room=ROOMS.find(r=>r.floor===state.floor&&((camera.position.x<-corridorHalf&&r.pos[0]<0)||(camera.position.x>corridorHalf&&r.pos[0]>0))&&((camera.position.z>=3&&r.pos[2]>3)||(camera.position.z<3&&camera.position.z>=-4&&r.pos[2]>=-4&&r.pos[2]<3)||(camera.position.z<-4&&r.pos[2]<-4)));
     if((room?.id||null)!==state.room){state.room=room?.id||null;syncLocation();}
   }
   updatePlayer();
@@ -349,7 +351,7 @@ async function init(){
     renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:'high-performance'});
     renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.35:1.75));renderer.setSize(innerWidth,innerHeight);
     renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
-    renderer.domElement.setAttribute('aria-label','İki katlı espor gaming house 3D görünümü');renderer.domElement.setAttribute('tabindex','0');$('#viewport').append(renderer.domElement);
+    renderer.domElement.setAttribute('aria-label','İki katlı espor takım evi 3D görünümü');renderer.domElement.setAttribute('tabindex','0');$('#viewport').append(renderer.domElement);
     renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();toast('3D görüntüsü kesildi. Sayfayı yenileyerek devam edebilirsiniz.');});
     hemi=new THREE.HemisphereLight('#e7f5ff','#a29c80',2.65);scene.add(hemi);ambient=new THREE.AmbientLight('#fff6e9',.8);scene.add(ambient);
     sun=new THREE.DirectionalLight('#fff3d8',3.1);sun.position.set(-15,32,20);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-32;sun.shadow.camera.right=32;sun.shadow.camera.top=32;sun.shadow.camera.bottom=-32;sun.shadow.camera.far=90;sun.shadow.normalBias=.035;scene.add(sun);

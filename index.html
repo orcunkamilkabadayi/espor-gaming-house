@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ecece4">
-  <meta name="description" content="AZES Gaming House — iki katlı espor yaşam ve performans merkezi. Yerel, etkileşimli 3D mimari konsept.">
-  <title>AZES — Gaming House / Mekânsal Deneyim</title>
+  <meta name="description" content="AZES Espor Takım Evi — iki katlı espor yaşam ve performans merkezi. Yerel, etkileşimli 3D mimari konsept.">
+  <title>AZES — Espor Takım Evi / Mekânsal Deneyim</title>
   <link rel="stylesheet" href="styles.css">
   <script src="gaming-house.js" defer></script>
 </head>
 <body>
   <!-- DOM contract: viewport owns the renderer; all controls are wired in src/main.js. -->
-  <main id="viewport" aria-label="İki katlı espor gaming house, etkileşimli 3 boyutlu mekân" aria-describedby="scene-keyboard-help"></main>
+  <main id="viewport" aria-label="İki katlı espor takım evi, etkileşimli 3 boyutlu mekân" aria-describedby="scene-keyboard-help"></main>
   <p id="scene-keyboard-help" class="sr-only">İçeride gez düğmesiyle mekâna girin. WASD veya yön tuşlarıyla yürüyün. E ile yakındaki kapıyı, M ile kat planını, F ile tam ekranı ve H ile arayüzü kontrol edin. Escape tuşuyla gezinti modundan çıkın.</p>
   <div id="scene-curtain" aria-hidden="true"></div>
   <div class="viewport-vignette" aria-hidden="true"></div>
 
   <header class="app-header chrome">
-    <a class="brand" href="#" aria-label="AZES Gaming House ana görünümü">
+    <a class="brand" href="#" aria-label="AZES Espor Takım Evi ana görünümü">
       <span class="brand-symbol">A<span>Z</span>ES<span class="brand-slash">/</span></span>
-      <span class="brand-copy"><strong>GAMING HOUSE</strong><small>MEKÂNSAL DENEYİM · 01</small></span>
+      <span class="brand-copy"><strong>ESPOR TAKIM EVİ</strong><small>MEKÂNSAL DENEYİM · 01</small></span>
     </a>
     <div class="header-actions">
       <span class="local-badge"><span></span>YEREL KONSEPT</span>
@@ -62,8 +62,8 @@
     <p class="plan-note">Bir mekâna dokunarak oraya geçebilirsiniz.</p>
   </aside>
 
-  <div class="location-label chrome"><span class="location-kicker">ŞU ANDA</span><h2 id="location-name">Gaming House</h2><p id="location-meta">Dış mekân · Genel görünüm</p></div>
-  <div id="look-hint" class="look-hint chrome"><span class="hint-mouse" aria-hidden="true"></span><span>Sürükle ve keşfet <i></i> Tekerlek ile yaklaş</span></div>
+  <div class="location-label chrome"><span class="location-kicker">ŞU ANDA</span><h2 id="location-name">Espor Takım Evi</h2><p id="location-meta">Dış mekân · Genel görünüm</p></div>
+  <div id="look-hint" class="look-hint chrome"><span class="hint-fare" aria-hidden="true"></span><span>Sürükle ve keşfet <i></i> Tekerlek ile yaklaş</span></div>
   <div id="crosshair" aria-hidden="true"><span></span><span></span></div>
 
   <div id="tour-status" class="tour-status chrome" hidden><span class="tour-indicator"></span><span id="tour-step">Mekân sunumu</span><button id="tour-stop" type="button" aria-label="Sunumu durdur">Durdur <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8"/></svg></button></div>
@@ -84,7 +84,7 @@
     </div>
   </nav>
 
-  <footer class="app-footer chrome"><span>AZES<span class="footer-separator">/</span>ESPORTS & LIVING</span><button id="about-btn" type="button">Konsept hakkında <span aria-hidden="true">↗</span></button></footer>
+  <footer class="app-footer chrome"><span>AZES<span class="footer-separator">/</span>ESPOR VE YAŞAM</span><button id="about-btn" type="button">Konsept hakkında <span aria-hidden="true">↗</span></button></footer>
   <button id="restore-ui" class="restore-ui" type="button" aria-label="Arayüzü göster" title="Arayüzü göster · H"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 3v18M8 15h13"/></svg><span>Arayüzü göster</span></button>
 
   <div id="touch-controls" aria-label="Dokunmatik yürüme kontrolleri"><button type="button" data-move="forward" aria-label="İleri yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg></button><button type="button" data-move="left" aria-label="Sola yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><button type="button" data-move="back" aria-label="Geri yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6"/></svg></button><button type="button" data-move="right" aria-label="Sağa yürü"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button></div>
@@ -95,9 +95,9 @@
 
   <dialog id="help-dialog" class="modal help-modal" aria-labelledby="help-title"><div class="modal-heading"><span class="eyebrow">KONTROL SİZDE</span><button id="help-close" type="button" class="small-icon-button" aria-label="Yardımı kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><h2 id="help-title">Mekânın içine girin<span>.</span></h2><p class="modal-intro">İster binanın çevresinde dolaşın, ister kapıdan girip her odayı kendi hızınızda keşfedin.</p><div class="help-controls"><div><span class="keyboard-keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><strong>Hareket</strong><p>İçeride gez modunda WASD veya yön tuşlarıyla yürüyün.</p></div><div><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 2v7m-7 0h14"/></svg><strong>Bakış ve yaklaşma</strong><p>Fareyi basılı tutup sürükleyin. Dış görünümde tekerlek ile yaklaşın.</p></div><div><span class="keyboard-keys"><kbd>E</kbd><kbd>M</kbd></span><strong>Kapılar ve kat planı</strong><p>Yakındaki kapıyı E ile açın. M ile kat planını görün.</p></div><div><span class="keyboard-keys"><kbd>F</kbd><kbd>H</kbd><kbd>Esc</kbd></span><strong>Görünüm</strong><p>F tam ekran, H arayüz. Esc ile sunumdan veya gezinti görünümünden çıkın.</p></div></div><div class="touch-help"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a2 2 0 0 1 4 0v6l2-1 5 3v6l-3 3h-5l-6-8a2 2 0 0 1 3-2Z"/></svg><p><strong>Dokunmatik ekran</strong>Bakmak için sürükleyin, yürümek için yön kontrolünü kullanın. Kat planından odalara doğrudan geçebilirsiniz.</p></div></dialog>
 
-  <dialog id="about-dialog" class="modal about-modal" aria-labelledby="about-title"><div class="modal-heading"><span class="eyebrow">MİMARİ KONSEPT / 01</span><button id="about-close" type="button" class="small-icon-button" aria-label="Konsept bilgisini kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><h2 id="about-title">Bir takımın<br>bütün dünyası<span>.</span></h2><p>AZES Gaming House, espor takımının antrenmanını, içerik üretimini, fiziksel iyilik hâlini ve ortak yaşamını iki katta birleştiren özgün bir 3D tasarım çalışmasıdır.</p><p>Alt kat performans ve üretime; üst kat dinlenme, yaşam ve toparlanmaya ayrılır. Bahçe ve teras, ekran dışında birlikte geçirilen zaman için tasarlanır.</p><div class="about-specs"><div><strong>02</strong><span>KAT</span></div><div><strong>3D</strong><span>SERBEST GEZİNTİ</span></div><div><strong>AZES</strong><span>TAKIM ODAĞI</span></div></div><h3>Araştırma ve referanslar</h3><div id="research-links" class="research-links"><a href="https://www.mimari3d.com/tanitim/" target="_blank" rel="noopener">Mimari3D · İnteraktif mimari deneyim <span>↗</span></a><a href="https://www.adanzyeespor.com/" target="_blank" rel="noopener">A'dan Z'ye Espor · Gaming house yazıları <span>↗</span></a></div><a class="source-link" href="REFERANS-INCELEME.html" target="_blank" rel="noopener">Ayrıntılı araştırma ve özellik karşılaştırması <span>↗</span></a><p class="concept-note">Yerel inceleme sürümü · Özgün konsept tasarım<br>Gerçek bir binaya ait uygulama veya ruhsat projesi değildir.</p></dialog>
+  <dialog id="about-dialog" class="modal about-modal" aria-labelledby="about-title"><div class="modal-heading"><span class="eyebrow">MİMARİ KONSEPT / 01</span><button id="about-close" type="button" class="small-icon-button" aria-label="Konsept bilgisini kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><h2 id="about-title">Bir takımın<br>bütün dünyası<span>.</span></h2><p>AZES Espor Takım Evi, espor takımının antrenmanını, içerik üretimini, fiziksel iyilik hâlini ve ortak yaşamını iki katta birleştiren özgün bir 3D tasarım çalışmasıdır.</p><p>Alt kat performans ve üretime; üst kat dinlenme, yaşam ve toparlanmaya ayrılır. Bahçe ve teras, ekran dışında birlikte geçirilen zaman için tasarlanır.</p><div class="about-specs"><div><strong>02</strong><span>KAT</span></div><div><strong>3D</strong><span>SERBEST GEZİNTİ</span></div><div><strong>AZES</strong><span>TAKIM ODAĞI</span></div></div><h3>Araştırma ve referanslar</h3><div id="research-links" class="research-links"><a href="https://www.mimari3d.com/tanitim/" target="_blank" rel="noopener">Mimari3D · İnteraktif mimari deneyim <span>↗</span></a><a href="https://www.adanzyeespor.com/" target="_blank" rel="noopener">A'dan Z'ye Espor · Espor takım evi yazıları <span>↗</span></a></div><a class="source-link" href="REFERANS-INCELEME.html" target="_blank" rel="noopener">Ayrıntılı araştırma ve özellik karşılaştırması <span>↗</span></a><p class="concept-note">Yerel inceleme sürümü · Özgün konsept tasarım<br>Gerçek bir binaya ait uygulama veya ruhsat projesi değildir.</p></dialog>
 
-  <dialog id="gallery-dialog" class="modal gallery-modal" aria-labelledby="gallery-title"><div class="modal-heading"><span id="gallery-title" class="eyebrow">MEKÂNDAN BİR KARE</span><button id="gallery-close" type="button" class="small-icon-button" aria-label="Fotoğrafı kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><img id="gallery-image" alt="Gaming House 3D görünümünden çekilen fotoğraf"><div class="gallery-footer"><p>Bakış açınız, sizin kareniz.</p><a id="gallery-download" class="download-button" download="aze-gaming-house.png"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>Fotoğrafı kaydet</a></div></dialog>
+  <dialog id="gallery-dialog" class="modal gallery-modal" aria-labelledby="gallery-title"><div class="modal-heading"><span id="gallery-title" class="eyebrow">MEKÂNDAN BİR KARE</span><button id="gallery-close" type="button" class="small-icon-button" aria-label="Fotoğrafı kapat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><img id="gallery-image" alt="Espor Takım Evi 3D görünümünden çekilen fotoğraf"><div class="gallery-footer"><p>Bakış açınız, sizin kareniz.</p><a id="gallery-download" class="download-button" download="AZES-espor-takim-evi.png"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>Fotoğrafı kaydet</a></div></dialog>
   <noscript><div class="noscript-notice">3D mekânı keşfetmek için tarayıcınızda JavaScript'i etkinleştirin.</div></noscript>
 </body>
 </html>
