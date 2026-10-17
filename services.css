@@ -1,0 +1,71 @@
+/* AZES service discovery and contact preparation. Scoped to the existing tour. */
+#azes-services{--sv-ink:#20301f;--sv-muted:#67715f;--sv-accent:#b7ed6a;font-family:"Segoe UI",Arial,sans-serif;color:var(--sv-ink)}
+#azes-services *,#azes-services *::before,#azes-services *::after{box-sizing:border-box}
+#azes-services [hidden]{display:none!important}
+.service-launchers{position:fixed;top:104px;right:30px;display:flex;gap:8px;z-index:22}
+#azes-services button,#azes-services a{font:inherit}
+#azes-services button{cursor:pointer}
+#azes-services .service-launch,#azes-services .service-invest{min-height:43px;padding:12px 17px;border:1px solid #c6d3b5;border-radius:9px;font-size:12px;font-weight:700;background:#f7faefed;color:#2c4324;box-shadow:0 7px 22px #29381f0b;backdrop-filter:blur(15px)}
+#azes-services .service-launch{background:#263b20;color:#edffd7;border-color:#263b20;display:flex;gap:23px;align-items:center}
+#azes-services .service-launch span{color:#c4f58a}
+#azes-services .service-launch:hover{background:#3a542d}
+#azes-services .service-invest:hover{background:#e8f5d7}
+#azes-services .service-room{position:fixed;right:30px;top:159px;max-width:340px;display:flex;align-items:center;gap:10px;padding:12px 16px;background:#eff9dfed;border:1px solid #b9d194;border-radius:10px;color:#2a4920;box-shadow:0 7px 25px #29381f10;z-index:21;font-size:12px;line-height:1.5;font-weight:650;text-align:left}
+.service-room-dot{width:7px;height:7px;border-radius:50%;background:#6b982f;box-shadow:0 0 0 4px #dcebc7;flex:0 0 7px}
+#azes-services .service-dialog{width:min(980px,calc(100vw - 40px));max-height:calc(100svh - 48px);margin:auto;padding:0;border:1px solid #cdd6c0;border-radius:19px;background:#f8faf2;color:var(--sv-ink);box-shadow:0 30px 100px #0c170b50;overflow:auto;overscroll-behavior:contain}
+#azes-services .service-dialog::backdrop{background:#14201280;backdrop-filter:blur(5px)}
+#azes-services .service-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 32px;background:#f8faf2f5;border-bottom:1px solid #dde4d2;z-index:2;backdrop-filter:blur(15px)}
+#azes-services .service-head>span{font-size:10px;letter-spacing:1.8px;font-weight:750;color:#657b4e}
+#azes-services .service-head button{padding:8px 12px;background:#edf1e4;border:1px solid #d4ddc5;border-radius:7px;font-size:12px;color:#34482c;font-weight:650;flex-shrink:0}
+#azes-services .service-body{padding:32px 38px 36px}
+#azes-services .service-eyebrow{font-size:10px;font-weight:750;letter-spacing:1.7px;color:#657b4e;margin:0 0 15px}
+#azes-services h2{font-size:clamp(28px,4vw,43px);line-height:1.13;letter-spacing:-1.6px;font-weight:650;margin:0 0 20px;color:#22341f}
+#azes-services h2>span{color:#7aa442}
+#azes-services h2:focus{outline:0}
+#azes-services h3{font-size:20px;line-height:1.35;letter-spacing:-.4px;margin:0 0 16px;font-weight:650}
+#azes-services .service-intro{max-width:710px;font-size:14px;line-height:1.85;color:#626e59;margin:0 0 25px}
+#azes-services .service-lead{font-size:19px;line-height:1.5;color:#446632;font-weight:600;margin:0 0 12px}
+#azes-services .service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:27px 0}
+#azes-services .service-grid button{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:21px 19px 42px;border:1px solid #dce3cf;border-radius:12px;background:#fffefa;color:#22351f;text-align:left;transition:background .16s ease,border-color .16s ease}
+#azes-services .service-grid button>span{font-size:8px;line-height:1.7;letter-spacing:1px;font-weight:750;color:#7b886b}
+#azes-services .service-grid strong{font-size:18px;line-height:1.35;letter-spacing:-.5px;font-weight:650}
+#azes-services .service-grid small{font-size:12px;line-height:1.7;color:#6e7764}
+#azes-services .service-grid b{position:absolute;bottom:15px;right:20px;font-weight:400;color:#608541;font-size:19px}
+#azes-services .service-grid button:hover{background:#eff8e3;border-color:#97b877}
+#azes-services .service-invest-card{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:25px;border-radius:12px;background:#263c22;color:#f5ffe9}
+#azes-services .service-invest-card span{font-size:9px;letter-spacing:1.7px;color:#bce891;font-weight:700}
+#azes-services .service-invest-card h3{margin:10px 0 8px;font-size:22px;color:#f5ffe9}
+#azes-services .service-invest-card p{font-size:12px;line-height:1.8;color:#bdcdb3;margin:0}
+#azes-services .service-primary{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:13px 18px;border:1px solid #b2dc80;background:var(--sv-accent);border-radius:7px;color:#253e19;font-size:12px;font-weight:750;line-height:1.5;text-decoration:none;white-space:normal;flex-shrink:0}
+#azes-services .service-primary:hover{background:#a4d85b}
+#azes-services .service-secondary{display:inline-flex;align-items:center;min-height:44px;background:transparent;border:1px solid #cddbbd;border-radius:7px;padding:12px 17px;color:#496637;font-size:12px;font-weight:650}
+#azes-services .service-actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 12px}
+#azes-services .service-footnote{font-size:11px;line-height:1.8;color:#7c856f;margin:20px 0 0;max-width:740px}
+#azes-services .service-back{padding:0;border:0;background:transparent;color:#647b4c;font-size:12px;margin:0 0 25px;min-height:30px;text-align:left}
+#azes-services .service-benefits{list-style:none;display:grid;gap:10px;padding:0;margin:22px 0 28px}
+#azes-services .service-benefits li{display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:1.6;color:#4b5e40}
+#azes-services .service-benefits span{color:#7da64e}
+#azes-services .service-example{border:1px solid #d6e1c7;border-radius:12px;background:#fffefa;padding:25px}
+#azes-services .service-example-top{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;margin:0 0 20px}
+#azes-services .service-example-top span{font-size:9px;font-weight:750;letter-spacing:1.3px;color:#759154}
+#azes-services .service-example-top small{font-size:10px;color:#89917f}
+#azes-services .service-example-row{display:grid;grid-template-columns:170px 1fr;gap:20px;border-top:1px solid #e6ebde;padding:13px 0}
+#azes-services .service-example-row strong{font-size:12px;line-height:1.7;color:#3a522e;font-weight:650}
+#azes-services .service-example-row p{margin:0;color:#758069;font-size:12px;line-height:1.8}
+#azes-services .service-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+#azes-services label{display:flex;flex-direction:column;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;font-weight:650;color:#4b6240}
+#azes-services label small{display:contents;font-size:11px;font-weight:400;color:#838e78}
+#azes-services input,#azes-services select,#azes-services textarea{appearance:auto;width:100%;max-width:100%;min-width:0;background:#fffefa;border:1px solid #ccd8bd;border-radius:7px;color:#273a22;font:13px/1.65 "Segoe UI",Arial,sans-serif;padding:12px;margin:0;box-shadow:none}
+#azes-services textarea{resize:vertical;min-height:100px}
+#azes-services .service-wide{margin:20px 0 0;width:100%}
+#azes-services .service-form-note{font-size:11px;line-height:1.8;color:#78876a;margin:14px 0 22px}
+#azes-services .service-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+#azes-services .service-contact-grid a{display:flex;flex-direction:column;gap:11px;border:1px solid #d2dfc1;border-radius:10px;padding:20px;text-decoration:none;background:#edf4e3;color:#3b5b28}
+#azes-services .service-contact-grid span{font-size:8px;font-weight:750;letter-spacing:1.4px;color:#7c8d69}
+#azes-services .service-contact-grid strong{font-size:15px;font-weight:650}
+#azes-services .service-contact-grid a:hover{background:#dfedcd}
+#azes-services .service-copy-status{font-size:12px;line-height:1.6;color:#567c35;min-height:20px;margin:10px 0}
+#azes-services :is(button,a,input,textarea,select):focus-visible{outline:3px solid #83ab50;outline-offset:3px}
+@media(max-width:1000px){#azes-services .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#azes-services .service-invest-card{align-items:flex-start;flex-direction:column}}
+@media(max-width:760px){.service-launchers{top:85px;left:16px;right:16px;justify-content:flex-end;gap:6px}#azes-services .service-launch,#azes-services .service-invest{font-size:10px;min-height:38px;padding:9px 12px}.service-launchers .service-launch{gap:12px}#azes-services .service-room{top:132px;right:16px;left:auto;max-width:calc(100vw - 32px);font-size:10px;padding:10px 12px}#azes-services .service-dialog{width:calc(100vw - 20px);max-height:calc(100svh - 24px);border-radius:13px}#azes-services .service-head{padding:13px 17px}#azes-services .service-head>span{font-size:8px;letter-spacing:1.1px}#azes-services .service-body{padding:25px 20px}#azes-services h2{font-size:30px;letter-spacing:-1px}#azes-services .service-intro{font-size:13px}#azes-services .service-grid{grid-template-columns:1fr;gap:10px}#azes-services .service-grid button{padding:18px 18px 34px;gap:8px}#azes-services .service-grid strong{font-size:18px}#azes-services .service-invest-card{padding:21px}#azes-services .service-invest-card h3{font-size:21px}#azes-services .service-form-grid,#azes-services .service-contact-grid{grid-template-columns:1fr}#azes-services .service-example{padding:18px}#azes-services .service-example-row{grid-template-columns:1fr;gap:5px}#azes-services .service-actions{flex-direction:column;align-items:stretch}#azes-services .service-primary,#azes-services .service-secondary{justify-content:center}#azes-services input,#azes-services select,#azes-services textarea{font-size:16px}.explore-panel:not(.collapsed)~#azes-services .service-room{display:none}}
+@media(prefers-reduced-motion:reduce){#azes-services *{transition:none!important}}

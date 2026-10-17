@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { buildHouse, CIRCULATION } from './scene.js';
 import { ROOMS, SOURCES } from './data.js';
+import { initServices } from './services.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -43,6 +44,7 @@ function syncLocation(){
   $('#location-name').textContent=state.view==='outside'?'AZES Espor Takım Evi':room?.name||(state.floor===0?'Performans katı':'Yaşam katı');
   $('#location-meta').textContent=state.view==='outside'?'İKİ KATLI TAKIM EVİ · DIŞ MEKÂN':`${state.floor===0?'01 / PERFORMANS':'02 / YAŞAM'}${room?' · '+room.area+' m² KONSEPT ALAN':''}`;
   $('#info-btn').hidden=!room;
+  services?.updateRoom(state.view==='outside'?null:state.room);
   $$('#room-list button').forEach(el=>{const a=el.dataset.room===state.room;el.classList.toggle('active',a);el.setAttribute('aria-pressed',String(a));});
   drawPlan();
 }
@@ -374,4 +376,5 @@ async function init(){
     $('#error-panel').innerHTML='<h2>3D görünüm başlatılamadı</h2><p>Güncel Chrome, Edge veya Firefox ile açın ve tarayıcınızda donanım hızlandırmasının etkin olduğundan emin olun.</p><p>Bu sayfa internetsiz çalışır; kurulum gerekmez.</p><button onclick="location.reload()">Yeniden dene</button>';
   }
 }
+const services=initServices({goRoom,stopTour,clearMovement:()=>keys.clear()});
 init();
